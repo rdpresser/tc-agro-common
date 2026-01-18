@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Library Items/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+  </Folder>
+  <Project Path="src/TC.Agro.Contracts/TC.Agro.Contracts.csproj" Id="d843db13-e321-43d4-93ab-390cd6dd9cbc" />
+  <Project Path="src/TC.Agro.SharedKernel/TC.Agro.SharedKernel.csproj" Id="569d86d7-72cd-4de4-8033-70ebf7008aba" />
+</Solution>

@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace TC.Agro.SharedKernel.Infrastructure.UserClaims
+{
+    public interface IUserContext
+    {
+        Guid Id { get; }
+        string Name { get; }
+        string Email { get; }
+        string Username { get; }
+        string Role { get; }
+
+        string? CorrelationId { get; }
+        Guid? TenantId { get; }
+        bool IsAuthenticated { get; }
+    }
+}

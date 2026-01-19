@@ -17,7 +17,7 @@
 
         protected BaseAggregateRoot(Guid id)
         {
-            Id = id;
+            Id = id == Guid.Empty ? Guid.NewGuid() : id;
             CreatedAt = DateTimeOffset.UtcNow;
             IsActive = true;
         }

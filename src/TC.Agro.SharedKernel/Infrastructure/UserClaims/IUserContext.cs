@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TC.Agro.SharedKernel.Infrastructure.UserClaims
+﻿namespace TC.Agro.SharedKernel.Infrastructure.UserClaims
 {
     public interface IUserContext
     {

@@ -1,6 +1,4 @@
-﻿using TC.Agro.SharedKernel.Infrastructure.Middleware;
-
-namespace TC.Agro.SharedKernel.Infrastructure.UserClaims
+﻿namespace TC.Agro.SharedKernel.Infrastructure.UserClaims
 {
     public sealed class UserContext : IUserContext
     {

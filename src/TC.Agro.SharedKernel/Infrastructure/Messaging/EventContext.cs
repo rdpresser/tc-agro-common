@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace TC.Agro.SharedKernel.Infrastructure.Messaging
+﻿namespace TC.Agro.SharedKernel.Infrastructure.Messaging
 {
     public record EventContext<TEvent>
         where TEvent : class

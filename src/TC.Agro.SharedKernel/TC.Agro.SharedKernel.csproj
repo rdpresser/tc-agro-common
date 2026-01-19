@@ -18,6 +18,7 @@
   <ItemGroup>
     <Folder Include="Infrastructure\Telemetry\" />
     <Folder Include="Infrastructure\Repository\" />
+    <Folder Include="Application\" />
   </ItemGroup>
 
 </Project>

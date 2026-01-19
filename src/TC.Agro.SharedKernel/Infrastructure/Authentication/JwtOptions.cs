@@ -1,6 +1,6 @@
 ﻿namespace TC.Agro.SharedKernel.Infrastructure.Authentication
 {
-    public class JwtSettings
+    public class JwtOptions
     {
         public required string SecretKey { get; init; }
         public required string Issuer { get; init; }

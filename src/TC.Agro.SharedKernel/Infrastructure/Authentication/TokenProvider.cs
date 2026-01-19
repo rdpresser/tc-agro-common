@@ -1,8 +1,8 @@
 ﻿namespace TC.Agro.SharedKernel.Infrastructure.Authentication
 {
-    public sealed class TokenProvider(IOptions<JwtSettings> jwtSettings) : ITokenProvider
+    public sealed class TokenProvider(IOptions<JwtOptions> jwtSettings) : ITokenProvider
     {
-        private readonly JwtSettings _jwtSettings = jwtSettings.Value;
+        private readonly JwtOptions _jwtSettings = jwtSettings.Value;
 
         public string Create(UserTokenProvider user)
         {

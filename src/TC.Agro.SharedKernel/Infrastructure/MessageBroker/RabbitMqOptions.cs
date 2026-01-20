@@ -4,23 +4,15 @@
     {
         public string Host { get; set; } = "localhost";
         public int Port { get; set; } = 5672;
-
-        // Opcional (UI do RabbitMQ)
         public int ManagementPort { get; set; } = 15672;
-
-        // Ex: "/" ou "agro"
         public string VirtualHost { get; set; } = "/";
-
         public string UserName { get; set; } = "guest";
         public string Password { get; set; } = "guest";
-
-        // Flags de provisionamento
+        public string Exchange { get; set; } = "unknown.events";
         public bool AutoProvision { get; set; } = true;
         public bool Durable { get; set; } = true;
         public bool UseQuorumQueues { get; set; } = false;
         public bool AutoPurgeOnStartup { get; set; } = false;
-
-        // 🔥 ConnectionString / URI final (sempre consistente)
         public string ConnectionString => BuildAmqpUri();
 
         private string BuildAmqpUri()

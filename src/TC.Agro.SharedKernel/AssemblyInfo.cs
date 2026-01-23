@@ -13,6 +13,7 @@ global using Microsoft.Extensions.Logging;
 global using Microsoft.Extensions.Options;
 global using Microsoft.Extensions.Primitives;
 global using Microsoft.IdentityModel.JsonWebTokens;
+global using Npgsql;
 global using Serilog.Context;
 global using StackExchange.Redis;
 global using System.Diagnostics.CodeAnalysis;

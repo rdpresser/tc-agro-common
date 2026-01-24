@@ -1,17 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <!-- API / Endpoints -->
     <PackageReference Include="Ardalis.Result.AspNetCore" />
-    <PackageReference Include="WolverineFx" />
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
-    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" />
-    <PackageReference Include="ZiggyCreatures.FusionCache" />
-    <PackageReference Include="ZiggyCreatures.FusionCache.Serialization.SystemTextJson" />
     <PackageReference Include="FastEndpoints" />
     <PackageReference Include="FastEndpoints.Security" />
+    
+    <!-- Wolverine / Messaging -->
+    <PackageReference Include="WolverineFx" />
+    <PackageReference Include="WolverineFx.EntityFrameworkCore" />
+    
+    <!-- EF Core / Database -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Npgsql" />
+    
+    <!-- Caching -->
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
+    <PackageReference Include="ZiggyCreatures.FusionCache" />
+    <PackageReference Include="ZiggyCreatures.FusionCache.Serialization.SystemTextJson" />
+    
+    <!-- Authentication -->
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" />
+    
+    <!-- Microsoft Extensions -->
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
-    <PackageReference Include="Npgsql" />
+    
+    <!-- Misc -->
     <PackageReference Include="DotNetEnv" />
     <PackageReference Include="Serilog" />
   </ItemGroup>

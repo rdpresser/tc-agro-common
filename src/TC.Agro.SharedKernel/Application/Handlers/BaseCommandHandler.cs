@@ -1,5 +1,13 @@
 ﻿namespace TC.Agro.SharedKernel.Application.Handlers;
 
+/// <summary>
+/// Base command handler for operations that modify aggregates and may publish integration events.
+/// Uses ITransactionalOutbox for atomic persistence and message publishing.
+/// </summary>
+/// <typeparam name="TCommand">The command type.</typeparam>
+/// <typeparam name="TResponse">The response type.</typeparam>
+/// <typeparam name="TAggregate">The aggregate root type.</typeparam>
+/// <typeparam name="TRepository">The repository type.</typeparam>
 public abstract class BaseCommandHandler<TCommand, TResponse, TAggregate, TRepository>
     : BaseHandler<TCommand, TResponse>
     where TCommand : IBaseCommand<TResponse>
@@ -9,18 +17,18 @@ public abstract class BaseCommandHandler<TCommand, TResponse, TAggregate, TRepos
 {
     protected TRepository Repository { get; }
     protected IUserContext UserContext { get; }
-    protected IUnitOfWork UnitOfWork { get; }
+    protected ITransactionalOutbox Outbox { get; }
     protected ILogger Logger { get; }
 
     protected BaseCommandHandler(
         TRepository repository,
         IUserContext userContext,
-        IUnitOfWork unitOfWork,
+        ITransactionalOutbox outbox,
         ILogger logger)
     {
         Repository = repository ?? throw new ArgumentNullException(nameof(repository));
         UserContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
-        UnitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        Outbox = outbox ?? throw new ArgumentNullException(nameof(outbox));
         Logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -58,7 +66,7 @@ public abstract class BaseCommandHandler<TCommand, TResponse, TAggregate, TRepos
         // 4) Publish integration events (Outbox)
         await PublishIntegrationEventsAsync(aggregate, ct).ConfigureAwait(false);
 
-        // 5) Commit (EF Core transaction + Wolverine Outbox flush happens after commit)
+        // 5) Commit (EF Core transaction + Outbox flush in single transaction)
         await CommitAsync(ct).ConfigureAwait(false);
 
         // 6) Build response
@@ -89,6 +97,9 @@ public abstract class BaseCommandHandler<TCommand, TResponse, TAggregate, TRepos
     protected virtual Task PublishIntegrationEventsAsync(TAggregate aggregate, CancellationToken ct)
         => Task.CompletedTask;
 
+    /// <summary>
+    /// Commits EF Core changes and flushes outbox messages in a single transaction.
+    /// </summary>
     protected virtual Task CommitAsync(CancellationToken ct)
-        => UnitOfWork.SaveChangesAsync(ct);
+        => Outbox.SaveChangesAsync(ct);
 }

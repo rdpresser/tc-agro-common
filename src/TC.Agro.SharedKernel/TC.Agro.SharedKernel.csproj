@@ -5,6 +5,7 @@
     <PackageReference Include="Ardalis.Result.AspNetCore" />
     <PackageReference Include="FastEndpoints" />
     <PackageReference Include="FastEndpoints.Security" />
+    <PackageReference Include="FluentValidation" />
     
     <!-- Wolverine / Messaging -->
     <PackageReference Include="WolverineFx" />
@@ -26,13 +27,13 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
     
+    <!-- Logging / Serilog -->
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Serilog.Enrichers.Span" />
+    
     <!-- Misc -->
     <PackageReference Include="DotNetEnv" />
-    <PackageReference Include="Serilog" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Infrastructure\Telemetry\" />
   </ItemGroup>
 
 </Project>

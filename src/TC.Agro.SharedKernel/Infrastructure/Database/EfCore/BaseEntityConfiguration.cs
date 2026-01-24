@@ -1,8 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TC.Agro.SharedKernel.Domain.Aggregate;
-
 namespace TC.Agro.SharedKernel.Infrastructure.Database.EfCore
 {
     /// <summary>

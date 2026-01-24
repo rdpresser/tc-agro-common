@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using TC.Agro.SharedKernel.Application.Ports;
 using TC.Agro.SharedKernel.Infrastructure.Database.EfCore;
 using Wolverine.EntityFrameworkCore;
 

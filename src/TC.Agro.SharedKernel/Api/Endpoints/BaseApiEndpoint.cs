@@ -1,60 +1,29 @@
-﻿namespace TC.Agro.SharedKernel.Api.Endpoints
+﻿namespace TC.Agro.SharedKernel.Api.Endpoints;
+
+public abstract class BaseApiEndpoint<TRequest, TResponse> : Endpoint<TRequest, TResponse>
+    where TRequest : notnull
+    where TResponse : class
 {
-    public abstract class BaseApiEndpoint<TRequest, TResponse> : Endpoint<TRequest, TResponse>
-        where TRequest : notnull
+    protected async Task MatchResultAsync(Result<TResponse> response, CancellationToken ct = default)
     {
-        private bool _responseSet;
-
-        public override Task OnBeforeHandleAsync(TRequest req, CancellationToken ct)
+        if (response.IsSuccess)
         {
-            EnsureResponse();
-            return base.OnBeforeHandleAsync(req, ct);
+            await Send.OkAsync(response.Value, cancellation: ct);
+            return;
         }
 
-        private void EnsureResponse()
+        if (response.IsNotFound())
         {
-            if (_responseSet) return;
-
-            Response = CreateResponse();
-            _responseSet = true;
+            await Send.NotFoundAsync(ct);
+            return;
         }
 
-        private static TResponse CreateResponse()
+        if (response.IsUnauthorized())
         {
-            try
-            {
-                return Activator.CreateInstance<TResponse>()!;
-            }
-            catch
-            {
-                return default!;
-            }
+            await Send.UnauthorizedAsync(ct);
+            return;
         }
 
-        /// <summary>
-        /// Handles the result of a query or command execution and sends the appropriate response.
-        /// </summary>
-        protected async Task MatchResultAsync(Result<TResponse> response, CancellationToken ct = default)
-        {
-            if (response.IsSuccess)
-            {
-                await Send.OkAsync(response.Value, cancellation: ct).ConfigureAwait(false);
-                return;
-            }
-
-            if (response.IsNotFound())
-            {
-                await Send.ErrorsAsync((int)HttpStatusCode.NotFound, ct).ConfigureAwait(false);
-                return;
-            }
-
-            if (response.IsUnauthorized())
-            {
-                await Send.ErrorsAsync((int)HttpStatusCode.Unauthorized, ct).ConfigureAwait(false);
-                return;
-            }
-
-            await Send.ErrorsAsync(cancellation: ct).ConfigureAwait(false);
-        }
+        await Send.ErrorsAsync((int)HttpStatusCode.BadRequest, ct);
     }
 }

@@ -1,7 +1,8 @@
 <Project>
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+    <!-- Disable strict transitive pinning to allow CodeAnalysis 5.0.0 from EF Core Design -->
+    <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
     <!-- ========================= -->
@@ -11,6 +12,21 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </GlobalPackageReference>
+    <!-- Microsoft.CodeAnalysis transitive dependencies -->
+    <!-- Force 5.0.0 to satisfy EF Core Design 10.0.2 requirements -->
+    <!-- These suppress SonarAnalyzer's 4.14.0 transitive requirements -->
+    <PackageVersion Include="Microsoft.CodeAnalysis" Version="5.0.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Common" Version="5.0.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.0.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.VisualBasic" Version="5.0.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces" Version="5.0.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="5.0.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Scripting.Common" Version="5.0.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="5.0.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="5.0.0" />
+    <!-- SonarAnalyzer 4.14.0 transitive - force to 5.0.0 -->
+    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
     <!-- ========================= -->
@@ -19,44 +35,37 @@
     <PackageVersion Include="Ardalis.Result.AspNetCore" Version="10.1.0" />
     <PackageVersion Include="FastEndpoints" Version="7.2.0" />
     <PackageVersion Include="FastEndpoints.Security" Version="7.2.0" />
-    
     <!-- ========================= -->
     <!-- Wolverine / Messaging -->
     <!-- ========================= -->
-    <PackageVersion Include="WolverineFx" Version="5.11.0" />
-    <PackageVersion Include="WolverineFx.EntityFrameworkCore" Version="5.11.0" />
-    
+    <PackageVersion Include="WolverineFx" Version="5.12.0" />
+    <PackageVersion Include="WolverineFx.EntityFrameworkCore" Version="5.12.0" />
     <!-- ========================= -->
     <!-- EF Core / Database -->
     <!-- ========================= -->
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.2" />
     <PackageVersion Include="Npgsql" Version="10.0.1" />
-    
     <!-- ========================= -->
     <!-- Caching -->
     <!-- ========================= -->
     <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.2" />
     <PackageVersion Include="ZiggyCreatures.FusionCache" Version="2.5.0" />
     <PackageVersion Include="ZiggyCreatures.FusionCache.Serialization.SystemTextJson" Version="2.5.0" />
-    
     <!-- ========================= -->
     <!-- Authentication -->
     <!-- ========================= -->
     <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.15.0" />
     <PackageVersion Include="BCrypt.Net-Next" Version="4.0.3" />
-    
     <!-- ========================= -->
     <!-- Microsoft Extensions -->
     <!-- ========================= -->
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.2" />
     <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.2" />
-    
     <!-- ========================= -->
     <!-- Misc -->
     <!-- ========================= -->
     <PackageVersion Include="DotNetEnv" Version="3.1.1" />
     <PackageVersion Include="FluentValidation" Version="12.1.1" />
-    
     <!-- ========================= -->
     <!-- Logging / Serilog -->
     <!-- ========================= -->

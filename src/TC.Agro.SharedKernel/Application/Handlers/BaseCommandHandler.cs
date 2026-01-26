@@ -18,13 +18,13 @@ public abstract class BaseCommandHandler<TCommand, TResponse, TAggregate, TRepos
     protected TRepository Repository { get; }
     protected IUserContext UserContext { get; }
     protected ITransactionalOutbox Outbox { get; }
-    protected ILogger Logger { get; }
+    protected Microsoft.Extensions.Logging.ILogger Logger { get; }
 
     protected BaseCommandHandler(
         TRepository repository,
         IUserContext userContext,
         ITransactionalOutbox outbox,
-        ILogger logger)
+        Microsoft.Extensions.Logging.ILogger logger)
     {
         Repository = repository ?? throw new ArgumentNullException(nameof(repository));
         UserContext = userContext ?? throw new ArgumentNullException(nameof(userContext));

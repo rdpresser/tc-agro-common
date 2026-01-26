@@ -1,6 +1,3 @@
-using Serilog;
-using Serilog.Enrichers.Span;
-
 namespace TC.Agro.SharedKernel.Api.Extensions
 {
     /// <summary>

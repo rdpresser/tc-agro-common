@@ -21,8 +21,8 @@
     <!-- ========================= -->
     <!-- Wolverine / Messaging -->
     <!-- ========================= -->
-    <PackageVersion Include="WolverineFx" Version="5.12.0" />
-    <PackageVersion Include="WolverineFx.EntityFrameworkCore" Version="5.12.0" />
+    <PackageVersion Include="WolverineFx" Version="5.12.1" />
+    <PackageVersion Include="WolverineFx.EntityFrameworkCore" Version="5.12.1" />
     <!-- ========================= -->
     <!-- EF Core / Database -->
     <!-- ========================= -->

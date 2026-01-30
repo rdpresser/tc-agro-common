@@ -32,7 +32,7 @@ namespace TC.Agro.SharedKernel.Api.Extensions
                 if (configuration is IConfigurationRoot root && !string.IsNullOrWhiteSpace(logsEndpoint))
                     root["Serilog:WriteTo:1:Args:endpoint"] = logsEndpoint;
 
-                // Read default configuration (sinks, levels, overrides)
+                // Read default configuration (sinks, levels, overrides from appsettings)
                 loggerConfiguration.ReadFrom.Configuration(hostContext.Configuration);
                 loggerConfiguration.ReadFrom.Services(services);
 
@@ -54,23 +54,32 @@ namespace TC.Agro.SharedKernel.Api.Extensions
                     timeZone = TimeZoneInfo.Utc;
                 }
 
-                // --- Essential Enrichers ---
-                loggerConfiguration.Enrich.With(new UtcToLocalTimeEnricher(timeZone));
-                loggerConfiguration.Enrich.WithSpan();           // Ensures trace_id/span_id when available
+                // --- CORE: Log Context (essential for manual properties) ---
                 loggerConfiguration.Enrich.FromLogContext();
 
-                // OpenTelemetry semantic conventions / resource consistency
-                loggerConfiguration.Enrich.WithProperty("service.name", serviceName);
-                loggerConfiguration.Enrich.WithProperty("service.namespace", serviceNamespace);
+                // --- TRACES: Automatic trace_id/span_id from OpenTelemetry Activity ---
+                // NOTE: Requires Serilog.Enrichers.Span NuGet package
+                // Reads Activity.Current.TraceId and SpanId
+                // This is the CRITICAL link between Logs in Loki ↔ Traces in Tempo
+                loggerConfiguration.Enrich.WithSpan();
+
+                // --- TIMEZONE: Local time conversion for human readability ---
+                loggerConfiguration.Enrich.With(new UtcToLocalTimeEnricher(timeZone));
+
+                // --- OTEL SEMANTIC CONVENTIONS: Resource attributes ---
+                // NOTE: service.name is already in OTEL Resource, logs inherit automatically
+                // Only add complementary metadata
                 loggerConfiguration.Enrich.WithProperty("service.version", serviceVersion);
+                loggerConfiguration.Enrich.WithProperty("service.instance.id", instanceId);
                 loggerConfiguration.Enrich.WithProperty("deployment.environment", environment);
+                loggerConfiguration.Enrich.WithProperty("host.name", Environment.MachineName);
                 loggerConfiguration.Enrich.WithProperty("host.provider", "localhost");
                 loggerConfiguration.Enrich.WithProperty("host.platform", "k3d_kubernetes_service");
-                loggerConfiguration.Enrich.WithProperty("service.instance.id", instanceId);
 
                 // NOTE: Console sink (JSON stdout) is already configured in appsettings.json via ReadFrom.Configuration()
-                // No need to add WriteTo.Console() here to avoid duplicate log entries
-                // Grafana Agent / Loki collects from stdout as configured in appsettings.Development.json and appsettings.Production.json
+                // Grafana Agent / Loki collects from stdout
+                // OTLP exporter sends to OTEL Collector → Loki (v2.9+)
+                // WithSpan() automatically adds trace_id/span_id when Activity.Current exists
             }, preserveStaticLogger: true, writeToProviders: true);
         }
     }

@@ -1,3 +1,4 @@
+using Serilog.Enrichers.CorrelationId;
 using TC.Agro.SharedKernel.Infrastructure.Telemetry;
 
 namespace TC.Agro.SharedKernel.Api.Extensions
@@ -56,6 +57,10 @@ namespace TC.Agro.SharedKernel.Api.Extensions
 
                 // --- CORE: Log Context (essential for manual properties) ---
                 loggerConfiguration.Enrich.FromLogContext();
+
+                // --- CORRELATION: CorrelationId header for cross-service tracing ---
+                loggerConfiguration.Enrich.WithCorrelationId();
+                loggerConfiguration.Enrich.WithCorrelationIdHeader();
 
                 // --- TRACES: Automatic trace_id/span_id from OpenTelemetry Activity ---
                 // NOTE: Requires Serilog.Enrichers.Span NuGet package

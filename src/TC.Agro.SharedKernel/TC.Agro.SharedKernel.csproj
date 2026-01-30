@@ -30,6 +30,7 @@
     <!-- Logging / Serilog -->
     <PackageReference Include="Serilog" />
     <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Serilog.Enrichers.CorrelationId" />
     <PackageReference Include="Serilog.Enrichers.Span" />
     
     <!-- Misc -->
@@ -37,3 +38,7 @@
   </ItemGroup>
 
 </Project>
+
+
+
+

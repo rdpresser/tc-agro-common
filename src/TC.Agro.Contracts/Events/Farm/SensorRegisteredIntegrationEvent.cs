@@ -13,7 +13,7 @@ namespace TC.Agro.Contracts.Events.Farm
     /// 
     /// Includes RelatedIds with PlotId for cross-aggregate correlation.
     /// </remarks>
-    public sealed record SensorRegisteredIntegrationEvent(
+    public record SensorRegisteredIntegrationEvent(
         Guid SensorId,
         Guid PlotId,
         string Type,

@@ -11,7 +11,7 @@ namespace TC.Agro.Contracts.Events.Farm
     /// - OccurredOn: timestamp when the event occurred
     /// - EventName: event name for logging and auditing
     /// </remarks>
-    public sealed record PropertyUpdatedIntegrationEvent(
+    public record PropertyUpdatedIntegrationEvent(
         Guid PropertyId,
         string Name,
         string Address,
@@ -21,6 +21,7 @@ namespace TC.Agro.Contracts.Events.Farm
         double? Latitude,
         double? Longitude,
         double AreaHectares,
+        Guid OwnerId,
         DateTimeOffset OccurredOn
     ) : BaseIntegrationEvent(Guid.NewGuid(), PropertyId, OccurredOn, nameof(PropertyUpdatedIntegrationEvent));
 }

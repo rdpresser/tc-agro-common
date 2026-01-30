@@ -43,6 +43,11 @@
             public string Endpoint { get; set; } = "http://localhost:4317";
 
             /// <summary>
+            /// OTLP logs endpoint URL (optional). When set, Serilog uses this full path (e.g. http://otel-collector:4318/v1/logs).
+            /// </summary>
+            public string? LogsEndpoint { get; set; }
+
+            /// <summary>
             /// OTLP protocol: "grpc" or "http/protobuf" (default: grpc)
             /// </summary>
             public string Protocol { get; set; } = "grpc";

@@ -27,21 +27,7 @@ namespace TC.Agro.SharedKernel.Api.Extensions
             return hostBuilder.UseSerilog((hostContext, services, loggerConfiguration) =>
             {
                 var grafanaOptions = GrafanaHelper.Build(configuration);
-                var logsEndpoint = grafanaOptions.Otlp.LogsEndpoint;
-
-                if (string.IsNullOrWhiteSpace(logsEndpoint))
-                {
-                    var scheme = grafanaOptions.Otlp.Insecure ? "http" : "https";
-
-                    if (grafanaOptions.Agent.Enabled)
-                    {
-                        logsEndpoint = $"{scheme}://{grafanaOptions.Agent.Host}:{grafanaOptions.Agent.OtlpHttpPort}/v1/logs";
-                    }
-                    else if (!string.IsNullOrWhiteSpace(grafanaOptions.Otlp.Endpoint))
-                    {
-                        logsEndpoint = $"{grafanaOptions.Otlp.Endpoint.TrimEnd('/')}/v1/logs";
-                    }
-                }
+                var logsEndpoint = grafanaOptions.ResolveLogsEndpoint();
 
                 if (configuration is IConfigurationRoot root && !string.IsNullOrWhiteSpace(logsEndpoint))
                     root["Serilog:WriteTo:1:Args:endpoint"] = logsEndpoint;

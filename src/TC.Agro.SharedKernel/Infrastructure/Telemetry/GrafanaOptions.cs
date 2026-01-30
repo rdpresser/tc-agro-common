@@ -17,11 +17,12 @@
         public AgentSettings Agent { get; set; } = new();
 
         /// <summary>
-        /// Resolves the OTLP endpoint URL based on Agent configuration
+        /// Resolves the base OTLP endpoint URL without /v1/* paths
         /// If Agent is enabled, endpoint is built from Agent.Host and ports
         /// Otherwise, returns the configured Otlp.Endpoint
+        /// Internal method used by specific telemetry type resolvers
         /// </summary>
-        public string ResolveEndpoint()
+        private string ResolveBaseEndpoint()
         {
             if (!Agent.Enabled)
                 return Otlp.Endpoint;
@@ -35,17 +36,54 @@
             return $"{scheme}://{Agent.Host}:{port}";
         }
 
+        /// <summary>
+        /// Resolves the OTLP endpoint URL for traces (/v1/traces)
+        /// Per OTLP specification, traces are sent to /v1/traces endpoint
+        /// </summary>
+        public string ResolveTracesEndpoint()
+        {
+            var baseEndpoint = ResolveBaseEndpoint();
+            return $"{baseEndpoint.TrimEnd('/')}/v1/traces";
+        }
+
+        /// <summary>
+        /// Resolves the OTLP endpoint URL for metrics (/v1/metrics)
+        /// Per OTLP specification, metrics are sent to /v1/metrics endpoint
+        /// </summary>
+        public string ResolveMetricsEndpoint()
+        {
+            var baseEndpoint = ResolveBaseEndpoint();
+            return $"{baseEndpoint.TrimEnd('/')}/v1/metrics";
+        }
+
+        /// <summary>
+        /// Resolves the OTLP endpoint URL specifically for logs (/v1/logs)
+        /// Per OTLP specification, logs are sent to /v1/logs endpoint
+        /// </summary>
+        public string ResolveLogsEndpoint()
+        {
+            var baseEndpoint = ResolveBaseEndpoint();
+            return $"{baseEndpoint.TrimEnd('/')}/v1/logs";
+        }
+
+        /// <summary>
+        /// Resolves the OTLP endpoint URL for backward compatibility
+        /// Returns base endpoint without /v1/* paths
+        /// Note: Prefer specific methods (ResolveTracesEndpoint, ResolveMetricsEndpoint, ResolveLogsEndpoint)
+        /// </summary>
+        public string ResolveEndpoint()
+        {
+            return ResolveBaseEndpoint();
+        }
+
         public sealed class OtlpSettings
         {
             /// <summary>
-            /// OTLP endpoint URL (default: http://localhost:4317)
+            /// OTLP base endpoint URL (default: http://localhost:4317)
+            /// This is the base endpoint used by all telemetry type resolvers
+            /// which append their specific /v1/* paths (/v1/traces, /v1/metrics, /v1/logs)
             /// </summary>
             public string Endpoint { get; set; } = "http://localhost:4317";
-
-            /// <summary>
-            /// OTLP logs endpoint URL (optional). When set, Serilog uses this full path (e.g. http://otel-collector:4318/v1/logs).
-            /// </summary>
-            public string? LogsEndpoint { get; set; }
 
             /// <summary>
             /// OTLP protocol: "grpc" or "http/protobuf" (default: grpc)

@@ -11,7 +11,7 @@ namespace TC.Agro.Contracts.Events.Farm
     /// - OccurredOn: timestamp when the event occurred
     /// - EventName: event name for logging and auditing
     /// </remarks>
-    public sealed record PropertyCreatedIntegrationEvent(
+    public record PropertyCreatedIntegrationEvent(
         Guid PropertyId,
         string Name,
         string Address,

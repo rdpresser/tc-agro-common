@@ -18,15 +18,28 @@
         /// </summary>
         void Add(TAggregate aggregate);
 
-        /////// <summary>
-        /////// Retrieves all aggregates of this type.
-        /////// Use with caution as this may be expensive for large datasets.
-        /////// </summary>
-        ////Task<IEnumerable<TAggregate>> GetAllAsync(CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Retrieves all aggregates of this type.
+        /// Use with caution as this may be expensive for large datasets.
+        /// </summary>
+        Task<IEnumerable<TAggregate>> GetAllAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Permanently deletes the aggregate identified by its ID.
         /// </summary>
         Task DeleteAsync(Guid aggregateId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Saves uncommitted events of the aggregate into the event stream.
+        /// Does NOT commit the session/transaction.
+        /// </summary>
+        Task SaveAsync(TAggregate aggregate, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Commits the session/transaction, persisting all changes (events/documents) to the database.
+        /// Marks aggregate events as committed.
+        /// This guarantees transactional outbox with message brokers.
+        /// </summary>
+        Task CommitAsync(TAggregate aggregate, CancellationToken cancellationToken = default);
     }
 }

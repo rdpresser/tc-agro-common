@@ -43,6 +43,9 @@
         public string ResolveTracesEndpoint()
         {
             var baseEndpoint = ResolveBaseEndpoint();
+            if ((Otlp.Protocol ?? "grpc").Equals("grpc", StringComparison.OrdinalIgnoreCase))
+                return baseEndpoint;
+
             return $"{baseEndpoint.TrimEnd('/')}/v1/traces";
         }
 
@@ -53,6 +56,9 @@
         public string ResolveMetricsEndpoint()
         {
             var baseEndpoint = ResolveBaseEndpoint();
+            if ((Otlp.Protocol ?? "grpc").Equals("grpc", StringComparison.OrdinalIgnoreCase))
+                return baseEndpoint;
+
             return $"{baseEndpoint.TrimEnd('/')}/v1/metrics";
         }
 
@@ -63,6 +69,9 @@
         public string ResolveLogsEndpoint()
         {
             var baseEndpoint = ResolveBaseEndpoint();
+            if ((Otlp.Protocol ?? "grpc").Equals("grpc", StringComparison.OrdinalIgnoreCase))
+                return baseEndpoint;
+
             return $"{baseEndpoint.TrimEnd('/')}/v1/logs";
         }
 

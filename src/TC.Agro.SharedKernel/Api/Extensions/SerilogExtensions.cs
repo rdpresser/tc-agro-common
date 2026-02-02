@@ -27,12 +27,6 @@ namespace TC.Agro.SharedKernel.Api.Extensions
         {
             return hostBuilder.UseSerilog((hostContext, services, loggerConfiguration) =>
             {
-                var grafanaOptions = GrafanaHelper.Build(configuration);
-                var logsEndpoint = grafanaOptions.ResolveLogsEndpoint();
-
-                if (configuration is IConfigurationRoot root && !string.IsNullOrWhiteSpace(logsEndpoint))
-                    root["Serilog:WriteTo:1:Args:endpoint"] = logsEndpoint;
-
                 // Read default configuration (sinks, levels, overrides from appsettings)
                 loggerConfiguration.ReadFrom.Configuration(hostContext.Configuration);
                 loggerConfiguration.ReadFrom.Services(services);

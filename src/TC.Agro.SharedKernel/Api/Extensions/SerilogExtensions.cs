@@ -56,6 +56,12 @@ namespace TC.Agro.SharedKernel.Api.Extensions
                 loggerConfiguration.Enrich.WithCorrelationId();
                 loggerConfiguration.Enrich.WithCorrelationIdHeader();
 
+                // --- CORRELATION NORMALIZATION: Ensure correlation_id is always present ---
+                // TelemetryMiddleware adds "correlation_id" via LogContext
+                // This enricher normalizes from multiple sources (CorrelationId, correlation_id, or generates new)
+                // Enables Loki filtering: {correlation_id="abc123"}
+                loggerConfiguration.Enrich.With<CorrelationIdNormalizationEnricher>();
+
                 // --- TRACES: Automatic trace_id/span_id from OpenTelemetry Activity ---
                 // NOTE: Requires Serilog.Enrichers.Span NuGet package
                 // Reads Activity.Current.TraceId and SpanId

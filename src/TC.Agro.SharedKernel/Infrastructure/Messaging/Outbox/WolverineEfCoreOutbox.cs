@@ -1,7 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using TC.Agro.SharedKernel.Infrastructure.Database.EfCore;
-using Wolverine.EntityFrameworkCore;
-
 namespace TC.Agro.SharedKernel.Infrastructure.Messaging.Outbox
 {
     /// <summary>

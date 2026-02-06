@@ -1,22 +1,44 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <!-- API / Endpoints -->
     <PackageReference Include="Ardalis.Result.AspNetCore" />
-    <PackageReference Include="WolverineFx" />
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
-    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" />
-    <PackageReference Include="ZiggyCreatures.FusionCache" />
-    <PackageReference Include="ZiggyCreatures.FusionCache.Serialization.SystemTextJson" />
     <PackageReference Include="FastEndpoints" />
     <PackageReference Include="FastEndpoints.Security" />
+    <PackageReference Include="FluentValidation" />
+    
+    <!-- Wolverine / Messaging -->
+    <PackageReference Include="WolverineFx" />
+    <PackageReference Include="WolverineFx.EntityFrameworkCore" />
+    
+    <!-- EF Core / Database -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Npgsql" />
+    
+    <!-- Caching -->
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
+    <PackageReference Include="ZiggyCreatures.FusionCache" />
+    <PackageReference Include="ZiggyCreatures.FusionCache.Serialization.SystemTextJson" />
+    
+    <!-- Authentication -->
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" />
+    
+    <!-- Microsoft Extensions -->
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
-    <PackageReference Include="DotNetEnv" />
+    
+    <!-- Logging / Serilog -->
     <PackageReference Include="Serilog" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Infrastructure\Telemetry\" />
+    <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Serilog.Enrichers.CorrelationId" />
+    <PackageReference Include="Serilog.Enrichers.Span" />
+    
+    <!-- Misc -->
+    <PackageReference Include="DotNetEnv" />
   </ItemGroup>
 
 </Project>
+
+
+
+

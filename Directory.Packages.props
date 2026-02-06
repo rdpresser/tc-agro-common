@@ -1,30 +1,84 @@
 <Project>
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
     <!-- ========================= -->
     <!-- Code Quality / Analyzers -->
     <!-- ========================= -->
-    <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="10.18.0.131500">
+    <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="10.19.0.132793">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </GlobalPackageReference>
   </ItemGroup>
   <ItemGroup>
+    <!-- ========================= -->
+    <!-- API / Endpoints -->
+    <!-- ========================= -->
     <PackageVersion Include="Ardalis.Result.AspNetCore" Version="10.1.0" />
-    <PackageVersion Include="WolverineFx" Version="5.10.0" />
-    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.15.0" />
-    <PackageVersion Include="ZiggyCreatures.FusionCache" Version="2.5.0" />
-    <PackageVersion Include="ZiggyCreatures.FusionCache.Serialization.SystemTextJson" Version="2.5.0" />
     <PackageVersion Include="FastEndpoints" Version="7.2.0" />
     <PackageVersion Include="FastEndpoints.Security" Version="7.2.0" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.1" />
-    <PackageVersion Include="DotNetEnv" Version="3.1.1" />
-    <PackageVersion Include="Serilog" Version="4.3.0" />
+    <!-- ========================= -->
+    <!-- Wolverine / Messaging -->
+    <!-- ========================= -->
+    <PackageVersion Include="Weasel.Core" Version="7.9.0" />
+    <PackageVersion Include="WolverineFx" Version="5.12.1" />
+    <PackageVersion Include="WolverineFx.EntityFrameworkCore" Version="5.12.1" />
+    <PackageVersion Include="WolverineFx.Postgresql" Version="5.12.1" />
+    <PackageVersion Include="WolverineFx.RabbitMQ" Version="5.12.1" />
+    <!-- ========================= -->
+    <!-- EF Core / Database -->
+    <!-- ========================= -->
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.2" />
+    <PackageVersion Include="Npgsql" Version="10.0.1" />
+    <!-- ========================= -->
+    <!-- Caching -->
+    <!-- ========================= -->
+    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.2" />
+    <PackageVersion Include="ZiggyCreatures.FusionCache" Version="2.5.0" />
+    <PackageVersion Include="ZiggyCreatures.FusionCache.Serialization.SystemTextJson" Version="2.5.0" />
+    <!-- ========================= -->
+    <!-- Authentication -->
+    <!-- ========================= -->
+    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.15.0" />
     <PackageVersion Include="BCrypt.Net-Next" Version="4.0.3" />
+    <!-- ========================= -->
+    <!-- Microsoft Extensions -->
+    <!-- ========================= -->
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.2" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.2" />
+    <!-- ========================= -->
+    <!-- Misc -->
+    <!-- ========================= -->
+    <PackageVersion Include="DotNetEnv" Version="3.1.1" />
+    <PackageVersion Include="FluentValidation" Version="12.1.1" />
+    <!-- ========================= -->
+    <!-- Logging / Serilog -->
+    <!-- ========================= -->
+    <PackageVersion Include="Serilog" Version="4.3.0" />
+    <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
+    <PackageVersion Include="Serilog.Enrichers.Span" Version="3.1.0" />
+    <PackageVersion Include="Serilog.Sinks.OpenTelemetry" Version="7.0.0" />
+    <PackageVersion Include="Serilog.Sinks.Console" Version="5.0.1" />
+    <PackageVersion Include="Serilog.Sinks.Grafana.Loki" Version="8.5.1" />
+    <PackageVersion Include="Serilog.Formatting.Compact" Version="3.0.0" />
+    <PackageVersion Include="Serilog.Enrichers.Sensitive" Version="1.5.3" />
+    <!-- Optional enrichers for correlation tracking -->
+    <PackageVersion Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
+    <PackageVersion Include="Serilog.Enrichers.Environment" Version="3.0.0" />
+    <PackageVersion Include="Serilog.Enrichers.Process" Version="3.0.0" />
+    <PackageVersion Include="Serilog.Enrichers.Thread" Version="4.1.0" />
+    <PackageVersion Include="CorrelationId" Version="3.0.0" />
+    <!-- ========================= -->
+    <!-- OpenTelemetry / Tracing -->
+    <!-- ========================= -->
+    <PackageVersion Include="OpenTelemetry" Version="1.10.0" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.10.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.10.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.10.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta.2" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Npgsql" Version="1.0.0-rc.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.StackExchangeRedis" Version="1.0.0-rc.1" />
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.10.0" />
   </ItemGroup>
 </Project>

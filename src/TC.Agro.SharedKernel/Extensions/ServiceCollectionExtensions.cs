@@ -85,7 +85,7 @@
         /// Creates a bootstrap logger for early logging before DI container is built
         /// </summary>
         /// <returns>A logger instance or null if creation fails</returns>
-        private static ILogger? CreateBootstrapLogger()
+        private static Microsoft.Extensions.Logging.ILogger? CreateBootstrapLogger()
         {
             try
             {

@@ -4,7 +4,7 @@
     {
         private readonly RequestDelegate _next;
         // Use consistent header naming across the application
-        private const string _correlationIdHeader = "x-correlation-id";
+        private const string _correlationIdHeader = "X-Correlation-ID";
 
         public CorrelationMiddleware(RequestDelegate next) => _next = next ?? throw new ArgumentNullException(nameof(next));
 
@@ -14,6 +14,7 @@
             ArgumentNullException.ThrowIfNull(correlationIdGenerator);
 
             var correlationId = GetCorrelationId(context, correlationIdGenerator);
+            context.TraceIdentifier = correlationId.ToString();
             AddCorrelationIdHeaderToResponse(context, correlationId);
 
             using (LogContext.PushProperty("CorrelationId", correlationId.ToString()))
@@ -24,14 +25,16 @@
 
         private static StringValues GetCorrelationId(HttpContext context, ICorrelationIdGenerator correlationIdGenerator)
         {
-            if (context.Request.Headers.TryGetValue(_correlationIdHeader, out var correlationId))
+            if (context.Request.Headers.TryGetValue(_correlationIdHeader, out var correlationId) &&
+                !string.IsNullOrWhiteSpace(correlationId.ToString()))
             {
                 correlationIdGenerator.SetCorrelationId(correlationId.ToString());
                 return correlationId;
             }
             else
             {
-                correlationIdGenerator.SetCorrelationId(context.TraceIdentifier ?? Guid.NewGuid().ToString());
+                var generatedCorrelationId = context.TraceIdentifier ?? Guid.NewGuid().ToString();
+                correlationIdGenerator.SetCorrelationId(generatedCorrelationId);
                 return correlationIdGenerator.CorrelationId;
             }
         }

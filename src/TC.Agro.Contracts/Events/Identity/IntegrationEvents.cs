@@ -24,4 +24,17 @@
         string Role,
         DateTimeOffset OccurredOn
     ) : BaseIntegrationEvent(Guid.NewGuid(), AggregateId, OccurredOn, nameof(UserCreatedIntegrationEvent));
+
+    /// <summary>
+    /// Integration event triggered when a user is deactivated.
+    /// Contains only the user identifier and deactivation timestamp.
+    /// </summary>
+    /// <remarks>
+    /// Inherits from <see cref="BaseIntegrationEvent"/>.
+    /// Naming convention: UserDeactivatedIntegrationEvent
+    /// </remarks>
+    public record UserDeactivatedIntegrationEvent(
+        Guid Id,
+        DateTimeOffset OccurredOn
+    ) : BaseIntegrationEvent(Guid.NewGuid(), Id, OccurredOn, nameof(UserDeactivatedIntegrationEvent));
 }

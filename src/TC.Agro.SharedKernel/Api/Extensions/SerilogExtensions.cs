@@ -1,4 +1,3 @@
-using Serilog.Enrichers.CorrelationId;
 using TC.Agro.SharedKernel.Infrastructure.Telemetry;
 
 namespace TC.Agro.SharedKernel.Api.Extensions
@@ -52,14 +51,13 @@ namespace TC.Agro.SharedKernel.Api.Extensions
                 // --- CORE: Log Context (essential for manual properties) ---
                 loggerConfiguration.Enrich.FromLogContext();
 
-                // --- CORRELATION: CorrelationId header for cross-service tracing ---
-                loggerConfiguration.Enrich.WithCorrelationId();
-                loggerConfiguration.Enrich.WithCorrelationIdHeader();
-
-                // --- CORRELATION NORMALIZATION: Ensure correlation_id is always present ---
-                // TelemetryMiddleware adds "correlation_id" via LogContext
-                // This enricher normalizes from multiple sources (CorrelationId, correlation_id, or generates new)
-                // Enables Loki filtering: {correlation_id="abc123"}
+                // --- CORRELATION: Managed by CorrelationMiddleware + TelemetryMiddleware ---
+                // CorrelationMiddleware pushes "CorrelationId" to LogContext
+                // TelemetryMiddleware pushes "correlation_id" to LogContext
+                // CorrelationIdNormalizationEnricher normalizes to "correlation_id" for Loki
+                // NOTE: Serilog.Enrichers.CorrelationId (WithCorrelationId/WithCorrelationIdHeader)
+                // was removed because it generates its own CorrelationId from HttpContext.TraceIdentifier,
+                // overwriting the value set by CorrelationMiddleware via LogContext.
                 loggerConfiguration.Enrich.With<CorrelationIdNormalizationEnricher>();
 
                 // --- TRACES: Automatic trace_id/span_id from OpenTelemetry Activity ---

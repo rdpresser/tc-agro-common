@@ -118,8 +118,8 @@ namespace TC.Agro.SharedKernel.Infrastructure
                     "Auth:Jwt:SecretKey must be at least 32 characters (256 bits)")
                 .Validate(o => !string.IsNullOrWhiteSpace(o.Issuer),
                     "Auth:Jwt:Issuer is required")
-                .Validate(o => IsValidUri(o.Issuer),
-                    "Auth:Jwt:Issuer must be a valid URI (e.g. http://localhost:5001)")
+                .Validate(o => IsValidIssuer(o.Issuer),
+                    "Auth:Jwt:Issuer must be a valid URI or service identifier (e.g. http://localhost:5001 or tc-agro-identity-service)")
                 .Validate(o => o.Audience != null && o.Audience.Length > 0,
                     "Auth:Jwt:Audience must contain at least one audience")
                 .Validate(o => o.Audience?.All(a => !string.IsNullOrWhiteSpace(a)) ?? false,
@@ -150,6 +150,17 @@ namespace TC.Agro.SharedKernel.Infrastructure
             {
                 return false;
             }
+        }
+
+        private static bool IsValidIssuer(string? issuer)
+        {
+            if (string.IsNullOrWhiteSpace(issuer))
+                return false;
+
+            if (IsValidUri(issuer))
+                return true;
+
+            return issuer.All(ch => char.IsLetterOrDigit(ch) || ch is '-' or '_' or '.');
         }
     }
 }

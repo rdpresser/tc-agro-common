@@ -19,7 +19,9 @@
             DistributedCacheDuration = TimeSpan.FromSeconds(30)
         };
 
-        public static FusionCacheEntryOptions Create(TimeSpan? duration = null, TimeSpan? distributedCacheDuration = null)
+        public static FusionCacheEntryOptions Create(
+            TimeSpan? duration = null,
+            TimeSpan? distributedCacheDuration = null)
         {
             return new FusionCacheEntryOptions
             {

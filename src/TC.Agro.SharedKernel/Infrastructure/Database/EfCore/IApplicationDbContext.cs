@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-
 namespace TC.Agro.SharedKernel.Infrastructure.Database.EfCore
 {
     /// <summary>

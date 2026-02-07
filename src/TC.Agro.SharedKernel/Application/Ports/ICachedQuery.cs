@@ -9,5 +9,12 @@
 
         TimeSpan? Duration { get; }
         TimeSpan? DistributedCacheDuration { get; }
+
+        IReadOnlyCollection<string> CacheTags { get; }
+    }
+
+    public interface IInvalidateCache
+    {
+        IReadOnlyCollection<string> CacheTags { get; }
     }
 }

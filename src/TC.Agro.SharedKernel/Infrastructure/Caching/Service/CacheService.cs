@@ -25,12 +25,14 @@
             T value,
             TimeSpan? duration = null,
             TimeSpan? distributedCacheDuration = null,
+            IReadOnlyCollection<string>? tags = null,
             CancellationToken cancellationToken = default)
         {
             await _fusionCache.SetAsync(
                 key,
                 value,
                 CacheServiceOptions.Create(duration, distributedCacheDuration),
+                tags?.ToArray(),
                 cancellationToken).ConfigureAwait(false);
         }
 
@@ -43,6 +45,14 @@
             await _fusionCache.RemoveAsync(
                 key,
                 CacheServiceOptions.Create(duration, distributedCacheDuration),
+                cancellationToken).ConfigureAwait(false);
+        }
+
+        public async Task RemoveByTagAsync(string tag, CancellationToken cancellationToken = default)
+        {
+            await _fusionCache.RemoveByTagAsync(
+                tag,
+                CacheServiceOptions.DefaultExpiration,
                 cancellationToken).ConfigureAwait(false);
         }
     }

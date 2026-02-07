@@ -38,6 +38,7 @@
                     context.Response,
                     context.Request!.Duration,
                     context.Request.DistributedCacheDuration,
+                    context.Request.CacheTags,
                     ct
                 ).ConfigureAwait(false);
 

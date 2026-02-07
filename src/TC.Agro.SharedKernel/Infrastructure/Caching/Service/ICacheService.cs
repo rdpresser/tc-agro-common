@@ -12,12 +12,17 @@
             T value,
             TimeSpan? duration = null,
             TimeSpan? distributedCacheDuration = null,
+            IReadOnlyCollection<string>? tags = null,
             CancellationToken cancellationToken = default);
 
         Task RemoveAsync(
             string key,
             TimeSpan? duration = null,
             TimeSpan? distributedCacheDuration = null,
+            CancellationToken cancellationToken = default);
+
+        Task RemoveByTagAsync(
+            string tag,
             CancellationToken cancellationToken = default);
     }
 }

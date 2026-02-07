@@ -23,48 +23,24 @@
         /// </summary>
         public bool? TrustServerCertificate { get; set; }
 
-        public string ConnectionString
+        public string ConnectionString => BuildConnectionString(Database);
+
+        public string MaintenanceConnectionString => BuildConnectionString(MaintenanceDatabase);
+
+        private string BuildConnectionString(string databaseName)
         {
-            get
-            {
-                var builder = new System.Text.StringBuilder();
-                builder.Append($"Host={Host};Port={Port};Database={Database};Username={UserName};Password={Password};SearchPath={Schema};Timeout={ConnectionTimeout};CommandTimeout={ConnectionTimeout};Pooling=true;Minimum Pool Size={MinPoolSize};Maximum Pool Size={MaxPoolSize}");
+            var baseConnection = $"Host={Host};Port={Port};Database={databaseName};Username={UserName};Password={Password};SearchPath={Schema};Timeout={ConnectionTimeout};CommandTimeout={ConnectionTimeout};Pooling=true;Minimum Pool Size={MinPoolSize};Maximum Pool Size={MaxPoolSize}";
 
-                // Add SSL configuration if specified
-                if (!string.IsNullOrEmpty(SslMode))
-                {
-                    builder.Append($";SSL Mode={SslMode}");
-                }
+            var parts = new List<string> { baseConnection };
 
-                if (TrustServerCertificate.HasValue)
-                {
-                    builder.Append($";Trust Server Certificate={TrustServerCertificate.Value}");
-                }
+            // Add SSL configuration if specified
+            if (!string.IsNullOrWhiteSpace(SslMode))
+                parts.Add($"SSL Mode={SslMode}");
 
-                return builder.ToString();
-            }
-        }
+            if (TrustServerCertificate.HasValue)
+                parts.Add($"Trust Server Certificate={TrustServerCertificate.Value}");
 
-        public string MaintenanceConnectionString
-        {
-            get
-            {
-                var builder = new System.Text.StringBuilder();
-                builder.Append($"Host={Host};Port={Port};Database={MaintenanceDatabase};Username={UserName};Password={Password};Timeout={ConnectionTimeout};CommandTimeout={ConnectionTimeout};Pooling=true;Minimum Pool Size={MinPoolSize};Maximum Pool Size={MaxPoolSize}");
-
-                // Add SSL configuration if specified
-                if (!string.IsNullOrEmpty(SslMode))
-                {
-                    builder.Append($";SSL Mode={SslMode}");
-                }
-
-                if (TrustServerCertificate.HasValue)
-                {
-                    builder.Append($";Trust Server Certificate={TrustServerCertificate.Value}");
-                }
-
-                return builder.ToString();
-            }
+            return string.Join(";", parts);
         }
     }
 }

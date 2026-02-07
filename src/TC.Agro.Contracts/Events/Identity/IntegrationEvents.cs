@@ -26,6 +26,22 @@
     ) : BaseIntegrationEvent(Guid.NewGuid(), AggregateId, OccurredOn, nameof(UserCreatedIntegrationEvent));
 
     /// <summary>
+    /// Integration event triggered when an existing user's details are updated.
+    /// Only essential user information is exposed for other services.
+    /// </summary>
+    /// <remarks>
+    /// Inherits from <see cref="BaseIntegrationEvent"/> to maintain consistency and traceability.
+    /// Naming convention: UserUpdatedIntegrationEvent
+    /// </remarks>
+    public record UserUpdatedIntegrationEvent(
+        Guid Id,
+        string Name,
+        string Email,
+        string Username,
+        DateTimeOffset OccurredOn
+    ) : BaseIntegrationEvent(Guid.NewGuid(), Id, OccurredOn, nameof(UserUpdatedIntegrationEvent));
+
+    /// <summary>
     /// Integration event triggered when a user is deactivated.
     /// Contains only the user identifier and deactivation timestamp.
     /// </summary>

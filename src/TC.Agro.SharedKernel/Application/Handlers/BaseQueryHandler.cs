@@ -6,7 +6,7 @@
     /// </summary>
     public abstract class BaseQueryHandler<TQuery, TResponse>
         : BaseHandler<TQuery, TResponse>
-        where TQuery : IBaseQuery<TResponse>
+        where TQuery : ICachedQuery<TResponse>
         where TResponse : class
     {
         /// <summary>

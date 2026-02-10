@@ -46,6 +46,23 @@ public abstract class BaseCommandHandler<TCommand, TResponse, TAggregate, TRepos
         var aggregateResult = await MapAsync(command, ct).ConfigureAwait(false);
         if (!aggregateResult.IsSuccess)
         {
+            // ✅ Diferenciar NotFound de ValidationErrors
+            if (aggregateResult.IsNotFound())
+            {
+                Logger.LogWarning(
+                    "Operation {OperationId} failed: Resource not found for command {CommandName}",
+                    operationId,
+                    typeof(TCommand).Name);
+
+                // ✅ Usar o padrão existente: AddError + BuildNotFoundResult()
+                foreach (var error in aggregateResult.Errors ?? ["Resource not found"])
+                {
+                    AddError(error, "Resource not found", Severity.Warning);
+                }
+                return BuildNotFoundResult();
+            }
+
+            // ✅ ValidationErrors (BadRequest)
             AddErrors(aggregateResult.ValidationErrors);
             return BuildValidationErrorResult();
         }

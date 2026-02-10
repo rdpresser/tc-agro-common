@@ -1,6 +1,7 @@
-using Wolverine;
 using TC.Agro.Contracts.Events.Identity;
 using TC.Agro.Messaging.Routing;
+using TC.Agro.SharedKernel.Infrastructure.Messaging;
+using Wolverine;
 
 namespace TC.Agro.Messaging.Extensions;
 

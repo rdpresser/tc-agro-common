@@ -1,5 +1,6 @@
-using Wolverine;
 using TC.Agro.Messaging.Routing;
+using Wolverine;
+using Wolverine.RabbitMQ;
 
 namespace TC.Agro.Messaging.Extensions;
 

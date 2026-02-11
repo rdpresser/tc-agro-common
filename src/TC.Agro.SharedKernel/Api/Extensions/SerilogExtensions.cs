@@ -1,5 +1,3 @@
-using TC.Agro.SharedKernel.Infrastructure.Telemetry;
-
 namespace TC.Agro.SharedKernel.Api.Extensions
 {
     /// <summary>

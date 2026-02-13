@@ -2,7 +2,6 @@
 
   <ItemGroup>
     <!-- Wolverine / Messaging -->
-    <PackageReference Include="WolverineFx" />
     <PackageReference Include="WolverineFx.RabbitMQ" />
   </ItemGroup>
 

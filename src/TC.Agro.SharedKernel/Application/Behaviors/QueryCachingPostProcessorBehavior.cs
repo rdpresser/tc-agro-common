@@ -23,6 +23,7 @@
             // Early exit if Request is null (can happen during exception scenarios or failed pre-processing)
             if (context.Request is null)
             {
+                _logger.LogWarning("Post-processing skipped because request binding failed.");
                 return;
             }
 

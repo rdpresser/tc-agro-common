@@ -20,6 +20,12 @@
         {
             ArgumentNullException.ThrowIfNull(context);
 
+            if (context.Request is null)
+            {
+                _logger.LogWarning("Pre-processing skipped because request binding failed.");
+                return;
+            }
+
             var genericType = _logger.GetType().GenericTypeArguments.FirstOrDefault()?.Name ?? "Unknown";
             var name = context.Request?.GetType().Name
                        ?? genericType;

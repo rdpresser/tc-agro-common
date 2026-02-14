@@ -20,6 +20,12 @@
         {
             ArgumentNullException.ThrowIfNull(context);
 
+            // Early exit if Request is null (can happen during exception scenarios or failed pre-processing)
+            if (context.Request is null)
+            {
+                return;
+            }
+
             if (context.HttpContext.Request.Headers.TryGetValue(correlationIdHeader, out var cachedInfo) && cachedInfo == GenerateCacheKey(context))
             {
                 context.HttpContext.Request.Headers.Remove(correlationIdHeader);
@@ -74,7 +80,16 @@
         private static string GenerateCacheKey(IPostProcessorContext<TQuery, TResponse> context)
         {
             var _userContext = context.HttpContext.RequestServices.GetRequiredService<IUserContext>();
-            context.Request!.SetCacheKey($"-{_userContext.Id}-{_userContext.Username}");
+
+            // If you need to handle unauthenticated users, check IsAuthenticated property
+            if (!_userContext.IsAuthenticated)
+            {
+                context.Request!.SetCacheKey("-anonymous-anonymous");
+            }
+            else
+            {
+                context.Request!.SetCacheKey($"-{_userContext.Id}-{_userContext.Username}");
+            }
 
             return context.Request.GetCacheKey;
         }

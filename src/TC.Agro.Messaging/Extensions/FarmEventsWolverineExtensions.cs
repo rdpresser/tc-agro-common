@@ -1,6 +1,4 @@
 using TC.Agro.Contracts.Events.Farm;
-using TC.Agro.Messaging.Routing;
-using TC.Agro.SharedKernel.Infrastructure.Messaging;
 
 namespace TC.Agro.Farm.Service.Extensions;
 

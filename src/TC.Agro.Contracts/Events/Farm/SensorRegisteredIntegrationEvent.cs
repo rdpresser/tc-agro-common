@@ -18,9 +18,11 @@ namespace TC.Agro.Contracts.Events.Farm
         Guid OwnerId,
         Guid PropertyId,
         Guid PlotId,
+        string? Label,
+        string PropertyName,
+        string PlotName,
         string Type,
         string Status,
-        string? Label,
         DateTimeOffset OccurredOn
     ) : BaseIntegrationEvent(
         Guid.NewGuid(),

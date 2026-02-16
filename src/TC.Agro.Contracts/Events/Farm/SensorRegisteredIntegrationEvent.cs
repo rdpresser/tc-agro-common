@@ -15,6 +15,8 @@ namespace TC.Agro.Contracts.Events.Farm
     /// </remarks>
     public record SensorRegisteredIntegrationEvent(
         Guid SensorId,
+        Guid OwnerId,
+        Guid PropertyId,
         Guid PlotId,
         string Type,
         string Status,
@@ -25,5 +27,5 @@ namespace TC.Agro.Contracts.Events.Farm
         SensorId,
         OccurredOn,
         nameof(SensorRegisteredIntegrationEvent),
-        new Dictionary<string, Guid> { ["PlotId"] = PlotId });
+        new Dictionary<string, Guid> { ["OwnerId"] = OwnerId, ["PropertyId"] = PropertyId, ["PlotId"] = PlotId });
 }

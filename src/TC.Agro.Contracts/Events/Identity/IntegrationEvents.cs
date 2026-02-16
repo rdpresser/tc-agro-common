@@ -17,13 +17,13 @@
     /// Used by Application layer to publish to the message bus for other services to consume.
     /// </remarks>
     public record UserCreatedIntegrationEvent(
-        Guid AggregateId,
+        Guid OwnerId,
         string Name,
         string Email,
         string Username,
         string Role,
         DateTimeOffset OccurredOn
-    ) : BaseIntegrationEvent(Guid.NewGuid(), AggregateId, OccurredOn, nameof(UserCreatedIntegrationEvent));
+    ) : BaseIntegrationEvent(Guid.NewGuid(), OwnerId, OccurredOn, nameof(UserCreatedIntegrationEvent));
 
     /// <summary>
     /// Integration event triggered when an existing user's details are updated.
@@ -34,12 +34,12 @@
     /// Naming convention: UserUpdatedIntegrationEvent
     /// </remarks>
     public record UserUpdatedIntegrationEvent(
-        Guid Id,
+        Guid OwnerId,
         string Name,
         string Email,
         string Username,
         DateTimeOffset OccurredOn
-    ) : BaseIntegrationEvent(Guid.NewGuid(), Id, OccurredOn, nameof(UserUpdatedIntegrationEvent));
+    ) : BaseIntegrationEvent(Guid.NewGuid(), OwnerId, OccurredOn, nameof(UserUpdatedIntegrationEvent));
 
     /// <summary>
     /// Integration event triggered when a user is deactivated.
@@ -50,7 +50,7 @@
     /// Naming convention: UserDeactivatedIntegrationEvent
     /// </remarks>
     public record UserDeactivatedIntegrationEvent(
-        Guid Id,
+        Guid OwnerId,
         DateTimeOffset OccurredOn
-    ) : BaseIntegrationEvent(Guid.NewGuid(), Id, OccurredOn, nameof(UserDeactivatedIntegrationEvent));
+    ) : BaseIntegrationEvent(Guid.NewGuid(), OwnerId, OccurredOn, nameof(UserDeactivatedIntegrationEvent));
 }

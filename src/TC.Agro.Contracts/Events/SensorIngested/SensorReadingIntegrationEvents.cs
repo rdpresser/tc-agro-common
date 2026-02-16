@@ -1,4 +1,4 @@
-namespace TC.Agro.Contracts.Events.Analytics
+namespace TC.Agro.Contracts.Events.SensorIngested
 {
     /// <summary>
     /// Integration event published when sensor data is ingested into the system.
@@ -7,19 +7,19 @@ namespace TC.Agro.Contracts.Events.Analytics
     public record SensorIngestedIntegrationEvent
     (
         Guid EventId,
-        Guid AggregateId,
+        Guid SensorReadingId,
         DateTimeOffset OccurredOn,
         string EventName,
         IDictionary<string, Guid>? RelatedIds,
         Guid SensorId,
         Guid PlotId,
-        DateTime Time,
+        DateTimeOffset Time,
         double? Temperature,
         double? Humidity,
         double? SoilMoisture,
         double? Rainfall,
         double? BatteryLevel
-    ) : BaseIntegrationEvent(EventId, AggregateId, OccurredOn, EventName, RelatedIds);
+    ) : BaseIntegrationEvent(EventId, SensorReadingId, OccurredOn, EventName, RelatedIds);
 
     /// <summary>
     /// Integration event published when a sensor detects high temperature above the configured threshold.
@@ -28,19 +28,19 @@ namespace TC.Agro.Contracts.Events.Analytics
     public record HighTemperatureDetectedIntegrationEvent
     (
         Guid EventId,
-        Guid AggregateId,
+        Guid SensorReadingId,
         DateTimeOffset OccurredOn,
         string EventName,
         IDictionary<string, Guid>? RelatedIds,
         Guid SensorId,
         Guid PlotId,
-        DateTime Time,
+        DateTimeOffset Time,
         double Temperature,
         double? Humidity,
         double? SoilMoisture,
         double? Rainfall,
         double? BatteryLevel
-    ) : BaseIntegrationEvent(EventId, AggregateId, OccurredOn, EventName, RelatedIds);
+    ) : BaseIntegrationEvent(EventId, SensorReadingId, OccurredOn, EventName, RelatedIds);
 
     /// <summary>
     /// Integration event published when low soil moisture is detected below the configured threshold.
@@ -50,19 +50,19 @@ namespace TC.Agro.Contracts.Events.Analytics
     public record LowSoilMoistureDetectedIntegrationEvent
     (
         Guid EventId,
-        Guid AggregateId,
+        Guid SensorReadingId,
         DateTimeOffset OccurredOn,
         string EventName,
         IDictionary<string, Guid>? RelatedIds,
         Guid SensorId,
         Guid PlotId,
-        DateTime Time,
+        DateTimeOffset Time,
         double? Temperature,
         double? Humidity,
         double SoilMoisture,
         double? Rainfall,
         double? BatteryLevel
-    ) : BaseIntegrationEvent(EventId, AggregateId, OccurredOn, EventName, RelatedIds);
+    ) : BaseIntegrationEvent(EventId, SensorReadingId, OccurredOn, EventName, RelatedIds);
 
     /// <summary>
     /// Integration event published when sensor battery level is low below the configured threshold.
@@ -72,7 +72,7 @@ namespace TC.Agro.Contracts.Events.Analytics
     public record BatteryLowWarningIntegrationEvent
     (
         Guid EventId,
-        Guid AggregateId,
+        Guid SensorReadingId,
         DateTimeOffset OccurredOn,
         string EventName,
         IDictionary<string, Guid>? RelatedIds,
@@ -80,5 +80,5 @@ namespace TC.Agro.Contracts.Events.Analytics
         Guid PlotId,
         double BatteryLevel,
         double Threshold
-    ) : BaseIntegrationEvent(EventId, AggregateId, OccurredOn, EventName, RelatedIds);
+    ) : BaseIntegrationEvent(EventId, SensorReadingId, OccurredOn, EventName, RelatedIds);
 }

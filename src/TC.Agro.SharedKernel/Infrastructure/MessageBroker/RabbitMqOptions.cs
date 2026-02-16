@@ -12,7 +12,7 @@
         public bool AutoProvision { get; set; } = true;
         public bool Durable { get; set; } = true;
         public bool UseQuorumQueues { get; set; } = false;
-        public bool AutoPurgeOnStartup { get; set; } = false;
+        public bool AutoPurgeOnStartup { get; set; } = true;
         public string ConnectionString => BuildAmqpUri();
 
         private string BuildAmqpUri()

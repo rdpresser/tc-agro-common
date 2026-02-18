@@ -24,5 +24,9 @@
         Task RemoveByTagAsync(
             string tag,
             CancellationToken cancellationToken = default);
+
+        Task RemoveByTagAsync(
+            IEnumerable<string> tags,
+            CancellationToken cancellationToken = default);
     }
 }

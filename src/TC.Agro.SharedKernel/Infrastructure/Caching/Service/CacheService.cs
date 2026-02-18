@@ -55,5 +55,13 @@
                 CacheServiceOptions.DefaultExpiration,
                 cancellationToken).ConfigureAwait(false);
         }
+
+        public async Task RemoveByTagAsync(IEnumerable<string> tags, CancellationToken cancellationToken = default)
+        {
+            await _fusionCache.RemoveByTagAsync(
+                tags,
+                CacheServiceOptions.DefaultExpiration,
+                cancellationToken).ConfigureAwait(false);
+        }
     }
 }

@@ -26,12 +26,11 @@ namespace TC.Agro.SharedKernel.Application.Behaviors
                 return;
             }
 
-            foreach (var tag in invalidation.CacheTags
+            var tags = invalidation.CacheTags
                 .Where(value => !string.IsNullOrWhiteSpace(value))
-                .Distinct(StringComparer.OrdinalIgnoreCase))
-            {
-                await _cacheService.RemoveByTagAsync(tag, ct).ConfigureAwait(false);
-            }
+                .Distinct(StringComparer.OrdinalIgnoreCase);
+
+            await _cacheService.RemoveByTagAsync(tags, ct).ConfigureAwait(false);
         }
     }
 }

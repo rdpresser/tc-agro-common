@@ -80,9 +80,17 @@
         private static string GenerateCacheKey(IPreProcessorContext<TQuery> context)
         {
             var _userContext = context.HttpContext.RequestServices.GetRequiredService<IUserContext>();
-            context.Request!.SetCacheKey($"-{_userContext.Id}-{_userContext.Username}");
 
-            return context.Request.GetCacheKey;
+			if (!_userContext.IsAuthenticated)
+			{
+				context.Request!.SetCacheKey("-anonymous-anonymous");
+			}
+			else
+			{
+				context.Request!.SetCacheKey($"-{_userContext.Id}-{_userContext.Username}");
+			}
+
+			return context.Request.GetCacheKey;
         }
     }
 }

@@ -44,38 +44,17 @@ public abstract class BaseCommandHandler<TCommand, TResponse, TAggregate, TRepos
 
         // 1) Map
         var aggregateResult = await MapAsync(command, ct).ConfigureAwait(false);
-        if (!aggregateResult.IsSuccess)
-        {
-            // ✅ Diferenciar NotFound de ValidationErrors
-            if (aggregateResult.IsNotFound())
-            {
-                Logger.LogWarning(
-                    "Operation {OperationId} failed: Resource not found for command {CommandName}",
-                    operationId,
-                    typeof(TCommand).Name);
-
-                // ✅ Usar o padrão existente: AddError + BuildNotFoundResult()
-                foreach (var error in aggregateResult.Errors ?? ["Resource not found"])
-                {
-                    AddError(error, "Resource not found", Severity.Warning);
-                }
-                return BuildNotFoundResult();
-            }
-
-            // ✅ ValidationErrors (BadRequest)
-            AddErrors(aggregateResult.ValidationErrors);
-            return BuildValidationErrorResult();
-        }
+        var errorResult = HandleErrorResult(aggregateResult, operationId);
+        if (errorResult != null)
+            return errorResult;
 
         var aggregate = aggregateResult.Value;
 
         // 2) Validate
         var validation = await ValidateAsync(aggregate, ct).ConfigureAwait(false);
-        if (!validation.IsSuccess)
-        {
-            AddErrors(validation.ValidationErrors);
-            return BuildValidationErrorResult();
-        }
+        var validationErrorResult = HandleErrorResult(validation, operationId);
+        if (validationErrorResult != null)
+            return validationErrorResult;
 
         // 3) Persist
         await PersistAsync(aggregate, ct).ConfigureAwait(false);
@@ -119,4 +98,94 @@ public abstract class BaseCommandHandler<TCommand, TResponse, TAggregate, TRepos
     /// </summary>
     protected virtual Task CommitAsync(CancellationToken ct)
         => Outbox.SaveChangesAsync(ct);
+
+    /// <summary>
+    /// Handles error results from Map or Validate operations.
+    /// Returns null if result is successful, or the error response to return early.
+    /// </summary>
+    private Result<TResponse>? HandleErrorResult<T>(Result<T> result, string operationId) where T : class
+    {
+        if (!result.IsSuccess)
+        {
+            // ✅ Diferenciar NotFound de ValidationErrors
+            if (result.IsNotFound())
+            {
+                Logger.LogWarning(
+                    "Operation {OperationId} failed: Resource not found for command {CommandName}",
+                    operationId,
+                    typeof(TCommand).Name);
+
+                foreach (var error in result.Errors ?? ["Resource not found"])
+                {
+                    AddError(error, "Resource not found", Severity.Warning);
+                }
+                return BuildNotFoundResult();
+            }
+
+            if (result.IsUnauthorized())
+            {
+                Logger.LogWarning(
+                    "Operation {OperationId} failed: Unauthorized access for command {CommandName}",
+                    operationId,
+                    typeof(TCommand).Name);
+
+                foreach (var error in result.Errors ?? ["Unauthorized"])
+                {
+                    AddError(error, "Unauthorized", Severity.Warning);
+                }
+                return BuildNotAuthorizedResult();
+            }
+
+            // ✅ ValidationErrors (BadRequest)
+            AddErrors(result.ValidationErrors);
+            return BuildValidationErrorResult();
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Handles error results from Validate operations.
+    /// Returns null if result is successful, or the error response to return early.
+    /// </summary>
+    private Result<TResponse>? HandleErrorResult(Result result, string operationId)
+    {
+        if (!result.IsSuccess)
+        {
+            // ✅ Diferenciar NotFound de ValidationErrors
+            if (result.IsNotFound())
+            {
+                Logger.LogWarning(
+                    "Operation {OperationId} failed: Resource not found for command {CommandName}",
+                    operationId,
+                    typeof(TCommand).Name);
+
+                foreach (var error in result.Errors ?? ["Resource not found"])
+                {
+                    AddError(error, "Resource not found", Severity.Warning);
+                }
+                return BuildNotFoundResult();
+            }
+
+            if (result.IsUnauthorized())
+            {
+                Logger.LogWarning(
+                    "Operation {OperationId} failed: Unauthorized access for command {CommandName}",
+                    operationId,
+                    typeof(TCommand).Name);
+
+                foreach (var error in result.Errors ?? ["Unauthorized"])
+                {
+                    AddError(error, "Unauthorized", Severity.Warning);
+                }
+                return BuildNotAuthorizedResult();
+            }
+
+            // ✅ ValidationErrors (BadRequest)
+            AddErrors(result.ValidationErrors);
+            return BuildValidationErrorResult();
+        }
+
+        return null;
+    }
 }

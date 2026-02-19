@@ -26,6 +26,9 @@
         /// <param name="aggregates">The collection of aggregate items to add. This parameter cannot be null and must contain valid aggregate
         /// instances.</param>
         void AddRange(IEnumerable<TAggregate> aggregates);
+        /// Updates an existing aggregate with new state changes.
+        /// </summary>
+        Task UpdateAsync(TAggregate aggregate, CancellationToken cancellationToken = default);
 
         /////// <summary>
         /////// Retrieves all aggregates of this type.

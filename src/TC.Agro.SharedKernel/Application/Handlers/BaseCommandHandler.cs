@@ -143,49 +143,4 @@ public abstract class BaseCommandHandler<TCommand, TResponse, TAggregate, TRepos
 
         return null;
     }
-
-    /// <summary>
-    /// Handles error results from Validate operations.
-    /// Returns null if result is successful, or the error response to return early.
-    /// </summary>
-    private Result<TResponse>? HandleErrorResult(Result result, string operationId)
-    {
-        if (!result.IsSuccess)
-        {
-            // ✅ Diferenciar NotFound de ValidationErrors
-            if (result.IsNotFound())
-            {
-                Logger.LogWarning(
-                    "Operation {OperationId} failed: Resource not found for command {CommandName}",
-                    operationId,
-                    typeof(TCommand).Name);
-
-                foreach (var error in result.Errors ?? ["Resource not found"])
-                {
-                    AddError(error, "Resource not found", Severity.Warning);
-                }
-                return BuildNotFoundResult();
-            }
-
-            if (result.IsUnauthorized())
-            {
-                Logger.LogWarning(
-                    "Operation {OperationId} failed: Unauthorized access for command {CommandName}",
-                    operationId,
-                    typeof(TCommand).Name);
-
-                foreach (var error in result.Errors ?? ["Unauthorized"])
-                {
-                    AddError(error, "Unauthorized", Severity.Warning);
-                }
-                return BuildNotAuthorizedResult();
-            }
-
-            // ✅ ValidationErrors (BadRequest)
-            AddErrors(result.ValidationErrors);
-            return BuildValidationErrorResult();
-        }
-
-        return null;
-    }
 }

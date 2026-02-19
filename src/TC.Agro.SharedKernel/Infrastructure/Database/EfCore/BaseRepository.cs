@@ -26,6 +26,12 @@ namespace TC.Agro.SharedKernel.Infrastructure.Database.EfCore
         }
 
         /// <inheritdoc />
+        public virtual void AddRange(IEnumerable<TAggregate> aggregates)
+        {
+            DbSet.AddRange(aggregates);
+        }
+
+        /// <inheritdoc />
         public virtual void Delete(TAggregate aggregateRoot)
         {
             DbSet.Remove(aggregateRoot);

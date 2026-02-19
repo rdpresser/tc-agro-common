@@ -18,6 +18,15 @@
         /// </summary>
         void Add(TAggregate aggregate);
 
+        /// <summary>
+        /// Adds a collection of aggregate items to the repository in a single operation.
+        /// </summary>
+        /// <remarks>Using this method to add multiple aggregates at once can improve performance compared
+        /// to adding them individually. The collection should not be modified during the operation.</remarks>
+        /// <param name="aggregates">The collection of aggregate items to add. This parameter cannot be null and must contain valid aggregate
+        /// instances.</param>
+        void AddRange(IEnumerable<TAggregate> aggregates);
+
         /////// <summary>
         /////// Retrieves all aggregates of this type.
         /////// Use with caution as this may be expensive for large datasets.

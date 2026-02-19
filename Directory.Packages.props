@@ -26,10 +26,10 @@
     <!-- Wolverine / Messaging -->
     <!-- ========================= -->
     <PackageVersion Include="Weasel.Core" Version="7.9.0" />
-    <PackageVersion Include="WolverineFx" Version="5.15.0" />
-    <PackageVersion Include="WolverineFx.EntityFrameworkCore" Version="5.15.0" />
+    <PackageVersion Include="WolverineFx" Version="5.16.2" />
+    <PackageVersion Include="WolverineFx.EntityFrameworkCore" Version="5.16.2" />
     <PackageVersion Include="WolverineFx.Postgresql" Version="5.15.0" />
-    <PackageVersion Include="WolverineFx.RabbitMQ" Version="5.15.0" />
+    <PackageVersion Include="WolverineFx.RabbitMQ" Version="5.16.2" />
     <PackageVersion Include="JasperFx.RuntimeCompiler" Version="4.3.2" />
     <PackageVersion Include="Microsoft.CodeAnalysis" Version="5.0.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Common" Version="5.0.0" />

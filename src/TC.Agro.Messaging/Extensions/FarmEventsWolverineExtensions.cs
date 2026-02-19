@@ -1,6 +1,6 @@
 using TC.Agro.Contracts.Events.Farm;
 
-namespace TC.Agro.Farm.Service.Extensions;
+namespace TC.Agro.Messaging.Extensions;
 
 /// <summary>
 /// Wolverine configuration extensions for Farm Service events

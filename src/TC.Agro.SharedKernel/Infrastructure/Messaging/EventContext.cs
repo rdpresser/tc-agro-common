@@ -5,7 +5,7 @@
     {
         public TEvent EventData { get; init; }
         public Guid MessageId { get; init; } = Guid.NewGuid();
-        public DateTime OccurredAt { get; init; } = DateTime.UtcNow;
+        public DateTimeOffset OccurredAt { get; init; } = DateTimeOffset.UtcNow;
         public Guid AggregateId { get; init; }
         public string? UserId { get; init; }
         public bool IsAuthenticated { get; init; }
@@ -34,7 +34,7 @@
         public EventContext(
             TEvent eventData,
             Guid messageId,
-            DateTime occurredAt,
+            DateTimeOffset occurredAt,
             Guid aggregateId,
             string? userId,
             bool isAuthenticated,

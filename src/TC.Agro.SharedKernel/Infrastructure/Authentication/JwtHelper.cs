@@ -54,6 +54,6 @@
         // --------------------------------------------------
         // Helper method to get expiration DateTime
         // --------------------------------------------------
-        public DateTime GetExpirationDateTime() => DateTime.UtcNow.Add(GetExpirationTimeSpan());
+        public DateTimeOffset GetExpirationDateTime() => DateTimeOffset.UtcNow.Add(GetExpirationTimeSpan());
     }
 }

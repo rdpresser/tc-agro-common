@@ -35,6 +35,21 @@ public static class TopicFanoutWolverineExtensions
             isDurable: isDurable);
     }
 
+    public static void ConfigureSensorIngestSensorEventsConsumption(
+        this WolverineOptions opts,
+        string exchangeName = "sensor-ingest.events-exchange",
+        string queueName = "analytics-sensor-ingest-events-queue",
+        bool isDurable = true)
+    {
+        ConfigureTopicFanoutConsumption(
+            opts,
+            sourceService: "sensor-ingest",
+            entity: "sensor",
+            exchangeName: exchangeName,
+            queueName: queueName,
+            isDurable: isDurable);
+    }
+
     /// <summary>
     /// Configures consumption with TOPIC exchange type and wildcard routing key
     /// Binds to {sourceService}.{entity}.*

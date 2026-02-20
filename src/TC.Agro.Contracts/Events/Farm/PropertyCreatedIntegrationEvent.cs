@@ -23,5 +23,10 @@ namespace TC.Agro.Contracts.Events.Farm
         double AreaHectares,
         Guid OwnerId,
         DateTimeOffset OccurredOn
-    ) : BaseIntegrationEvent(Guid.NewGuid(), PropertyId, OccurredOn, nameof(PropertyCreatedIntegrationEvent));
+    ) :
+        BaseIntegrationEvent(
+            Guid.NewGuid(),
+            PropertyId,
+            OccurredOn,
+            nameof(PropertyCreatedIntegrationEvent));
 }

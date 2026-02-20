@@ -21,19 +21,17 @@ namespace TC.Agro.Contracts.Events.Farm
     /// IsActive flag on aggregates will be set to false upon receiving this event.
     /// </remarks>
     public record SensorDeactivatedIntegrationEvent(
-        Guid EventId,
-        Guid AggregateId,                    // SensorId
-        DateTimeOffset OccurredOn,
-        
-        // Payload
         Guid SensorId,
         Guid PlotId,
         Guid PropertyId,
         string Reason,                       // "Moved to another farm", "End of lifecycle", "Replacement"
         Guid DeactivatedByUserId,
-        
-        // Optional
-        string EventName = "SensorDeactivated",
-        IDictionary<string, Guid>? RelatedIds = null
-    ) : BaseIntegrationEvent(EventId, AggregateId, OccurredOn, EventName, RelatedIds);
+        DateTimeOffset OccurredOn = default
+    ) :
+        BaseIntegrationEvent(
+            Guid.NewGuid(),
+            SensorId,
+            OccurredOn,
+            nameof(SensorDeactivatedIntegrationEvent),
+            new Dictionary<string, Guid> { { "PlotId", PlotId }, { "PropertyId", PropertyId } });
 }

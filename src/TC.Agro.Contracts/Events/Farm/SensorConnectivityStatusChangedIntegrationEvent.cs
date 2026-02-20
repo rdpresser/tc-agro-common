@@ -20,22 +20,20 @@ namespace TC.Agro.Contracts.Events.Farm
     /// Routing Key: sensor-ingest.sensor.connectivity-status
     /// </remarks>
     public record SensorConnectivityStatusChangedIntegrationEvent(
-        Guid EventId,
-        Guid AggregateId,                    // SensorId
-        DateTimeOffset OccurredOn,
-        
-        // Payload
         Guid SensorId,
         Guid PlotId,
         string PreviousConnectivity,         // "Online", "Warning", "Offline"
         string NewConnectivity,              // "Online", "Warning", "Offline"
-        
-        // Optional
-        string EventName = "SensorConnectivityStatusChanged",
-        int? SignalStrength = null,          // -80 dBm (WiFi/Signal strength)
-        int? BatteryLevel = null,            // 85 (percentage)
-        DateTimeOffset? LastDataAt = null,   // When last reading was received
-        string? DisconnectReason = null,     // "No data for 10 minutes", "Connection timeout", etc.
-        IDictionary<string, Guid>? RelatedIds = null
-    ) : BaseIntegrationEvent(EventId, AggregateId, OccurredOn, EventName, RelatedIds);
+        int? SignalStrength,          // -80 dBm (WiFi/Signal strength)
+        int? BatteryLevel,            // 85 (percentage)
+        DateTimeOffset? LastDataAt,   // When last reading was received
+        string? DisconnectReason,     // "No data for 10 minutes", "Connection timeout", etc.        
+        DateTimeOffset OccurredOn
+    ) :
+        BaseIntegrationEvent(
+            Guid.NewGuid(),
+            SensorId,
+            OccurredOn,
+            nameof(SensorConnectivityStatusChangedIntegrationEvent),
+            new Dictionary<string, Guid> { { "PlotId", PlotId } });
 }

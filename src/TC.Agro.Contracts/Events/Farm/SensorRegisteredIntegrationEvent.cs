@@ -24,10 +24,11 @@ namespace TC.Agro.Contracts.Events.Farm
         string Type,
         string Status,
         DateTimeOffset OccurredOn
-    ) : BaseIntegrationEvent(
-        Guid.NewGuid(),
-        SensorId,
-        OccurredOn,
-        nameof(SensorRegisteredIntegrationEvent),
-        new Dictionary<string, Guid> { ["OwnerId"] = OwnerId, ["PropertyId"] = PropertyId, ["PlotId"] = PlotId });
+    ) :
+        BaseIntegrationEvent(
+            Guid.NewGuid(),
+            SensorId,
+            OccurredOn,
+            nameof(SensorRegisteredIntegrationEvent),
+            new Dictionary<string, Guid> { { "OwnerId", OwnerId }, { "PropertyId", PropertyId }, { "PlotId", PlotId } });
 }

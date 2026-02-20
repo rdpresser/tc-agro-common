@@ -20,10 +20,11 @@ namespace TC.Agro.Contracts.Events.Farm
         string CropType,
         double AreaHectares,
         DateTimeOffset OccurredOn
-    ) : BaseIntegrationEvent(
-        Guid.NewGuid(),
-        PlotId,
-        OccurredOn,
-        nameof(PlotCreatedIntegrationEvent),
-        new Dictionary<string, Guid> { ["PropertyId"] = PropertyId });
+    ) :
+        BaseIntegrationEvent(
+            Guid.NewGuid(),
+            PlotId,
+            OccurredOn,
+            nameof(PlotCreatedIntegrationEvent),
+            new Dictionary<string, Guid> { { "PropertyId", PropertyId } });
 }

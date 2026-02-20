@@ -23,7 +23,12 @@
         string Username,
         string Role,
         DateTimeOffset OccurredOn
-    ) : BaseIntegrationEvent(Guid.NewGuid(), OwnerId, OccurredOn, nameof(UserCreatedIntegrationEvent));
+    ) :
+        BaseIntegrationEvent(
+            Guid.NewGuid(),
+            OwnerId,
+            OccurredOn,
+            nameof(UserCreatedIntegrationEvent));
 
     /// <summary>
     /// Integration event triggered when an existing user's details are updated.
@@ -39,7 +44,12 @@
         string Email,
         string Username,
         DateTimeOffset OccurredOn
-    ) : BaseIntegrationEvent(Guid.NewGuid(), OwnerId, OccurredOn, nameof(UserUpdatedIntegrationEvent));
+    ) :
+        BaseIntegrationEvent(
+            Guid.NewGuid(),
+            OwnerId,
+            OccurredOn,
+            nameof(UserUpdatedIntegrationEvent));
 
     /// <summary>
     /// Integration event triggered when a user is deactivated.
@@ -52,5 +62,10 @@
     public record UserDeactivatedIntegrationEvent(
         Guid OwnerId,
         DateTimeOffset OccurredOn
-    ) : BaseIntegrationEvent(Guid.NewGuid(), OwnerId, OccurredOn, nameof(UserDeactivatedIntegrationEvent));
+    ) :
+        BaseIntegrationEvent(
+            Guid.NewGuid(),
+            OwnerId,
+            OccurredOn,
+            nameof(UserDeactivatedIntegrationEvent));
 }

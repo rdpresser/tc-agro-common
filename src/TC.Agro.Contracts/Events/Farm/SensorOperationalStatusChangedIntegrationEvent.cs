@@ -19,21 +19,19 @@ namespace TC.Agro.Contracts.Events.Farm
     /// Version: 1 (supports future 2.0 with StatusChangeType and PolicyRuleId)
     /// </remarks>
     public record SensorOperationalStatusChangedIntegrationEvent(
-        Guid EventId,
-        Guid AggregateId,                    // SensorId
-        DateTimeOffset OccurredOn,
-        
-        // Payload
         Guid SensorId,
         Guid PlotId,
         Guid PropertyId,
         string PreviousStatus,               // "Active", "Inactive", "Maintenance", "Faulty"
         string NewStatus,                    // "Active", "Inactive", "Maintenance", "Faulty"
         Guid ChangedByUserId,
-        
-        // Optional
-        string EventName = "SensorOperationalStatusChanged",
-        string? Reason = null,               // "Preventive maintenance", "Repair completed", etc.
-        IDictionary<string, Guid>? RelatedIds = null
-    ) : BaseIntegrationEvent(EventId, AggregateId, OccurredOn, EventName, RelatedIds);
+        string? Reason,               // "Preventive maintenance", "Repair completed", etc.
+        DateTimeOffset OccurredOn
+    ) :
+        BaseIntegrationEvent(
+            Guid.NewGuid(),
+            SensorId,
+            OccurredOn,
+            nameof(SensorOperationalStatusChangedIntegrationEvent),
+            new Dictionary<string, Guid> { { "PlotId", PlotId }, { "PropertyId", PropertyId } });
 }

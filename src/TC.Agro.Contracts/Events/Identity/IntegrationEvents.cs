@@ -22,7 +22,7 @@
         string Email,
         string Username,
         string Role,
-        DateTimeOffset OccurredOn
+        DateTimeOffset OccurredOn = default
     ) :
         BaseIntegrationEvent(
             Guid.NewGuid(),
@@ -43,7 +43,7 @@
         string Name,
         string Email,
         string Username,
-        DateTimeOffset OccurredOn
+        DateTimeOffset OccurredOn = default
     ) :
         BaseIntegrationEvent(
             Guid.NewGuid(),
@@ -61,7 +61,7 @@
     /// </remarks>
     public record UserDeactivatedIntegrationEvent(
         Guid OwnerId,
-        DateTimeOffset OccurredOn
+        DateTimeOffset OccurredOn = default
     ) :
         BaseIntegrationEvent(
             Guid.NewGuid(),

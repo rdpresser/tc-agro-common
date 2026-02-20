@@ -28,7 +28,7 @@ namespace TC.Agro.Contracts.Events.Farm
         int? BatteryLevel,            // 85 (percentage)
         DateTimeOffset? LastDataAt,   // When last reading was received
         string? DisconnectReason,     // "No data for 10 minutes", "Connection timeout", etc.        
-        DateTimeOffset OccurredOn
+        DateTimeOffset OccurredOn = default
     ) :
         BaseIntegrationEvent(
             Guid.NewGuid(),

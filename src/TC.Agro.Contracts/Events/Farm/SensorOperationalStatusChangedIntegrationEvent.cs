@@ -26,7 +26,7 @@ namespace TC.Agro.Contracts.Events.Farm
         string NewStatus,                    // "Active", "Inactive", "Maintenance", "Faulty"
         Guid ChangedByUserId,
         string? Reason,               // "Preventive maintenance", "Repair completed", etc.
-        DateTimeOffset OccurredOn
+        DateTimeOffset OccurredOn = default
     ) :
         BaseIntegrationEvent(
             Guid.NewGuid(),

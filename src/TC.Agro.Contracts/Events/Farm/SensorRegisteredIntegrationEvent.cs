@@ -23,7 +23,7 @@ namespace TC.Agro.Contracts.Events.Farm
         string PlotName,
         string Type,
         string Status,
-        DateTimeOffset OccurredOn
+        DateTimeOffset OccurredOn = default
     ) :
         BaseIntegrationEvent(
             Guid.NewGuid(),

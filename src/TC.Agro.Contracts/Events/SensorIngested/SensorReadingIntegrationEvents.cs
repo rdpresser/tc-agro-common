@@ -15,7 +15,7 @@ namespace TC.Agro.Contracts.Events.SensorIngested
         double? SoilMoisture,
         double? Rainfall,
         double? BatteryLevel,
-        DateTimeOffset OccurredOn
+        DateTimeOffset OccurredOn = default
     ) :
         BaseIntegrationEvent(
             Guid.NewGuid(),
@@ -39,7 +39,7 @@ namespace TC.Agro.Contracts.Events.SensorIngested
         double? SoilMoisture,
         double? Rainfall,
         double? BatteryLevel,
-        DateTimeOffset OccurredOn
+        DateTimeOffset OccurredOn = default
     ) :
         BaseIntegrationEvent(
             Guid.NewGuid(),
@@ -64,7 +64,7 @@ namespace TC.Agro.Contracts.Events.SensorIngested
         double SoilMoisture,
         double? Rainfall,
         double? BatteryLevel,
-        DateTimeOffset OccurredOn
+        DateTimeOffset OccurredOn = default
     ) :
         BaseIntegrationEvent(
             Guid.NewGuid(),
@@ -85,7 +85,7 @@ namespace TC.Agro.Contracts.Events.SensorIngested
         Guid PlotId,
         double BatteryLevel,
         double Threshold,
-        DateTimeOffset OccurredOn
+        DateTimeOffset OccurredOn = default
     ) :
         BaseIntegrationEvent(
             Guid.NewGuid(),

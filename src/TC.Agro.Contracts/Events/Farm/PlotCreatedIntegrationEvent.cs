@@ -19,7 +19,7 @@ namespace TC.Agro.Contracts.Events.Farm
         string Name,
         string CropType,
         double AreaHectares,
-        DateTimeOffset OccurredOn
+        DateTimeOffset OccurredOn = default
     ) :
         BaseIntegrationEvent(
             Guid.NewGuid(),

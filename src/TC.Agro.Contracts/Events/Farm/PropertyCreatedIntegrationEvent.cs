@@ -22,7 +22,7 @@ namespace TC.Agro.Contracts.Events.Farm
         double? Longitude,
         double AreaHectares,
         Guid OwnerId,
-        DateTimeOffset OccurredOn
+        DateTimeOffset OccurredOn = default
     ) :
         BaseIntegrationEvent(
             Guid.NewGuid(),

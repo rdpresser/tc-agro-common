@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// Generic abstraction for repositories responsible for persisting aggregate roots.
-    /// Defines a contract that hides persistence details (Marten, EF, etc.) 
+    /// Defines a contract that hides persistence details 
     /// while exposing consistent operations for aggregates.
     /// </summary>
     public interface IBaseRepository<TAggregate> where TAggregate : BaseAggregateRoot
@@ -26,9 +26,6 @@
         /// <param name="aggregates">The collection of aggregate items to add. This parameter cannot be null and must contain valid aggregate
         /// instances.</param>
         void AddRange(IEnumerable<TAggregate> aggregates);
-        /// Updates an existing aggregate with new state changes.
-        /// </summary>
-        Task UpdateAsync(TAggregate aggregate, CancellationToken cancellationToken = default);
 
         /////// <summary>
         /////// Retrieves all aggregates of this type.

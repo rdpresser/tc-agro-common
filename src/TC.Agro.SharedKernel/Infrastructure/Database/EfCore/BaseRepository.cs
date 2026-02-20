@@ -52,5 +52,13 @@ namespace TC.Agro.SharedKernel.Infrastructure.Database.EfCore
         {
             return await DbSet.FindAsync([aggregateId], cancellationToken).ConfigureAwait(false);
         }
+
+        /// <inheritdoc />
+        public virtual async Task UpdateAsync(TAggregate aggregate, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(aggregate);
+            DbSet.Update(aggregate);
+            await Task.CompletedTask.ConfigureAwait(false);
+        }
     }
 }

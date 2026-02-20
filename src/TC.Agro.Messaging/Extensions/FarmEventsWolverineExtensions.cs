@@ -50,6 +50,16 @@ public static class FarmEventsWolverineExtensions
             typeof(EventContext<SensorRegisteredIntegrationEvent>),
             TopicRoutingKeyHelper.GenerateRoutingKey(ServiceName, "sensor", "registered")
         );
+
+        opts.RegisterMessageType(
+            typeof(EventContext<SensorOperationalStatusChangedIntegrationEvent>),
+            TopicRoutingKeyHelper.GenerateRoutingKey(ServiceName, "sensor", "operational-status")
+        );
+
+        opts.RegisterMessageType(
+            typeof(EventContext<SensorDeactivatedIntegrationEvent>),
+            TopicRoutingKeyHelper.GenerateRoutingKey(ServiceName, "sensor", "deactivated")
+        );
     }
 
     /// <summary>

@@ -11,7 +11,7 @@
         {
             EventId = eventId;
             AggregateId = aggregateId;
-            OccurredOn = !occurredOn.HasValue || occurredOn.Value == default
+            OccurredOn = occurredOn is null || !occurredOn.HasValue || occurredOn.Value == default
                 ? DateTimeOffset.UtcNow
                 : occurredOn.Value;
             EventName = eventName;

@@ -1,4 +1,4 @@
-namespace TC.Agro.Contracts.Events.Analytics
+namespace TC.Agro.Contracts.Events.SensorIngested
 {
     /// <summary>
     /// Integration event published when sensor data is ingested into the system.
@@ -6,20 +6,24 @@ namespace TC.Agro.Contracts.Events.Analytics
     /// </summary>
     public record SensorIngestedIntegrationEvent
     (
-        Guid EventId,
-        Guid AggregateId,
-        DateTimeOffset OccurredOn,
-        string EventName,
-        IDictionary<string, Guid>? RelatedIds,
+        Guid SensorReadingId,
         Guid SensorId,
         Guid PlotId,
-        DateTime Time,
+        Guid OwnerId,
+        DateTimeOffset Time,
         double? Temperature,
         double? Humidity,
         double? SoilMoisture,
         double? Rainfall,
-        double? BatteryLevel
-    ) : BaseIntegrationEvent(EventId, AggregateId, OccurredOn, EventName, RelatedIds);
+        double? BatteryLevel,
+        DateTimeOffset OccurredOn = default
+    ) :
+        BaseIntegrationEvent(
+            Guid.NewGuid(),
+            SensorReadingId,
+            OccurredOn,
+            nameof(SensorIngestedIntegrationEvent),
+            new Dictionary<string, Guid> { { "SensorId", SensorId }, { "PlotId", PlotId }, { "OwnerId", OwnerId } });
 
     /// <summary>
     /// Integration event published when a sensor detects high temperature above the configured threshold.
@@ -27,20 +31,23 @@ namespace TC.Agro.Contracts.Events.Analytics
     /// </summary>
     public record HighTemperatureDetectedIntegrationEvent
     (
-        Guid EventId,
-        Guid AggregateId,
-        DateTimeOffset OccurredOn,
-        string EventName,
-        IDictionary<string, Guid>? RelatedIds,
+        Guid SensorReadingId,
         Guid SensorId,
         Guid PlotId,
-        DateTime Time,
+        DateTimeOffset Time,
         double Temperature,
         double? Humidity,
         double? SoilMoisture,
         double? Rainfall,
-        double? BatteryLevel
-    ) : BaseIntegrationEvent(EventId, AggregateId, OccurredOn, EventName, RelatedIds);
+        double? BatteryLevel,
+        DateTimeOffset OccurredOn = default
+    ) :
+        BaseIntegrationEvent(
+            Guid.NewGuid(),
+            SensorReadingId,
+            OccurredOn,
+            nameof(HighTemperatureDetectedIntegrationEvent),
+            new Dictionary<string, Guid> { { "SensorId", SensorId }, { "PlotId", PlotId } });
 
     /// <summary>
     /// Integration event published when low soil moisture is detected below the configured threshold.
@@ -49,20 +56,23 @@ namespace TC.Agro.Contracts.Events.Analytics
     /// </summary>
     public record LowSoilMoistureDetectedIntegrationEvent
     (
-        Guid EventId,
-        Guid AggregateId,
-        DateTimeOffset OccurredOn,
-        string EventName,
-        IDictionary<string, Guid>? RelatedIds,
+        Guid SensorReadingId,
         Guid SensorId,
         Guid PlotId,
-        DateTime Time,
+        DateTimeOffset Time,
         double? Temperature,
         double? Humidity,
         double SoilMoisture,
         double? Rainfall,
-        double? BatteryLevel
-    ) : BaseIntegrationEvent(EventId, AggregateId, OccurredOn, EventName, RelatedIds);
+        double? BatteryLevel,
+        DateTimeOffset OccurredOn = default
+    ) :
+        BaseIntegrationEvent(
+            Guid.NewGuid(),
+            SensorReadingId,
+            OccurredOn,
+            nameof(LowSoilMoistureDetectedIntegrationEvent),
+            new Dictionary<string, Guid> { { "SensorId", SensorId }, { "PlotId", PlotId } });
 
     /// <summary>
     /// Integration event published when sensor battery level is low below the configured threshold.
@@ -71,14 +81,17 @@ namespace TC.Agro.Contracts.Events.Analytics
     /// </summary>
     public record BatteryLowWarningIntegrationEvent
     (
-        Guid EventId,
-        Guid AggregateId,
-        DateTimeOffset OccurredOn,
-        string EventName,
-        IDictionary<string, Guid>? RelatedIds,
+        Guid SensorReadingId,
         Guid SensorId,
         Guid PlotId,
         double BatteryLevel,
-        double Threshold
-    ) : BaseIntegrationEvent(EventId, AggregateId, OccurredOn, EventName, RelatedIds);
+        double Threshold,
+        DateTimeOffset OccurredOn = default
+    ) :
+        BaseIntegrationEvent(
+            Guid.NewGuid(),
+            SensorReadingId,
+            OccurredOn,
+            nameof(BatteryLowWarningIntegrationEvent),
+            new Dictionary<string, Guid> { { "SensorId", SensorId }, { "PlotId", PlotId } });
 }

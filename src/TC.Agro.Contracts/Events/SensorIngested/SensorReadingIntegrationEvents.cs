@@ -8,7 +8,6 @@ namespace TC.Agro.Contracts.Events.SensorIngested
     (
         Guid SensorReadingId,
         Guid SensorId,
-        Guid PlotId,
         DateTimeOffset Time,
         double? Temperature,
         double? Humidity,
@@ -22,7 +21,7 @@ namespace TC.Agro.Contracts.Events.SensorIngested
             SensorReadingId,
             OccurredOn,
             nameof(SensorIngestedIntegrationEvent),
-            new Dictionary<string, Guid> { { "SensorId", SensorId }, { "PlotId", PlotId } });
+            new Dictionary<string, Guid> { { "SensorId", SensorId } });
 
     /// <summary>
     /// Integration event published when a sensor detects high temperature above the configured threshold.
@@ -32,7 +31,6 @@ namespace TC.Agro.Contracts.Events.SensorIngested
     (
         Guid SensorReadingId,
         Guid SensorId,
-        Guid PlotId,
         DateTimeOffset Time,
         double Temperature,
         double? Humidity,
@@ -46,7 +44,7 @@ namespace TC.Agro.Contracts.Events.SensorIngested
             SensorReadingId,
             OccurredOn,
             nameof(HighTemperatureDetectedIntegrationEvent),
-            new Dictionary<string, Guid> { { "SensorId", SensorId }, { "PlotId", PlotId } });
+            new Dictionary<string, Guid> { { "SensorId", SensorId } });
 
     /// <summary>
     /// Integration event published when low soil moisture is detected below the configured threshold.
@@ -57,7 +55,6 @@ namespace TC.Agro.Contracts.Events.SensorIngested
     (
         Guid SensorReadingId,
         Guid SensorId,
-        Guid PlotId,
         DateTimeOffset Time,
         double? Temperature,
         double? Humidity,
@@ -71,7 +68,7 @@ namespace TC.Agro.Contracts.Events.SensorIngested
             SensorReadingId,
             OccurredOn,
             nameof(LowSoilMoistureDetectedIntegrationEvent),
-            new Dictionary<string, Guid> { { "SensorId", SensorId }, { "PlotId", PlotId } });
+            new Dictionary<string, Guid> { { "SensorId", SensorId } });
 
     /// <summary>
     /// Integration event published when sensor battery level is low below the configured threshold.
@@ -82,7 +79,6 @@ namespace TC.Agro.Contracts.Events.SensorIngested
     (
         Guid SensorReadingId,
         Guid SensorId,
-        Guid PlotId,
         double BatteryLevel,
         double Threshold,
         DateTimeOffset OccurredOn = default
@@ -92,5 +88,5 @@ namespace TC.Agro.Contracts.Events.SensorIngested
             SensorReadingId,
             OccurredOn,
             nameof(BatteryLowWarningIntegrationEvent),
-            new Dictionary<string, Guid> { { "SensorId", SensorId }, { "PlotId", PlotId } });
+            new Dictionary<string, Guid> { { "SensorId", SensorId } });
 }

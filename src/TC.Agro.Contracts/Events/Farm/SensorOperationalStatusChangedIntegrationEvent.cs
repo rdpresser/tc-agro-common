@@ -20,12 +20,14 @@ namespace TC.Agro.Contracts.Events.Farm
     /// </remarks>
     public record SensorOperationalStatusChangedIntegrationEvent(
         Guid SensorId,
+        Guid OwnerId,
         Guid PlotId,
         Guid PropertyId,
-        string PreviousStatus,               // "Active", "Inactive", "Maintenance", "Faulty"
-        string NewStatus,                    // "Active", "Inactive", "Maintenance", "Faulty"
-        Guid ChangedByUserId,
-        string? Reason,               // "Preventive maintenance", "Repair completed", etc.
+        string? Label,
+        string PropertyName,
+        string PlotName,
+        //Guid ChangedByUserId,
+        //string? Reason,               // "Preventive maintenance", "Repair completed", etc.
         DateTimeOffset OccurredOn = default
     ) :
         BaseIntegrationEvent(
@@ -33,5 +35,5 @@ namespace TC.Agro.Contracts.Events.Farm
             SensorId,
             OccurredOn,
             nameof(SensorOperationalStatusChangedIntegrationEvent),
-            new Dictionary<string, Guid> { { "PlotId", PlotId }, { "PropertyId", PropertyId } });
+            new Dictionary<string, Guid> { { "OwnerId", OwnerId }, { "PlotId", PlotId }, { "PropertyId", PropertyId } });
 }

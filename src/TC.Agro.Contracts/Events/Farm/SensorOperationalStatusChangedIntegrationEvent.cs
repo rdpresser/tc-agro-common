@@ -27,8 +27,8 @@ namespace TC.Agro.Contracts.Events.Farm
         string PropertyName,
         string PlotName,
         string Status,
-        //Guid ChangedByUserId,
-        //string? Reason,               // "Preventive maintenance", "Repair completed", etc.
+        Guid ChangedByUserId,
+        string? Reason,               // "Preventive maintenance", "Repair completed", etc.
         DateTimeOffset OccurredOn = default
     ) :
         BaseIntegrationEvent(
@@ -36,5 +36,5 @@ namespace TC.Agro.Contracts.Events.Farm
             SensorId,
             OccurredOn,
             nameof(SensorOperationalStatusChangedIntegrationEvent),
-            new Dictionary<string, Guid> { { "OwnerId", OwnerId }, { "PlotId", PlotId }, { "PropertyId", PropertyId } });
+            new Dictionary<string, Guid> { { "OwnerId", OwnerId }, { "PlotId", PlotId }, { "PropertyId", PropertyId }, { "ChangedByUserId", ChangedByUserId } });
 }

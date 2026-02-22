@@ -26,6 +26,7 @@ namespace TC.Agro.Contracts.Events.Farm
         string? Label,
         string PropertyName,
         string PlotName,
+        string Status,
         //Guid ChangedByUserId,
         //string? Reason,               // "Preventive maintenance", "Repair completed", etc.
         DateTimeOffset OccurredOn = default

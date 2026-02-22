@@ -28,7 +28,7 @@ namespace TC.Agro.Contracts.Events.Farm
         string PlotName,
         string Status,
         Guid ChangedByUserId,
-        string? Reason,               // "Preventive maintenance", "Repair completed", etc.
+        string? Reason,
         DateTimeOffset OccurredOn = default
     ) :
         BaseIntegrationEvent(

@@ -27,7 +27,6 @@ namespace TC.Agro.Contracts.Events.Farm
         string PropertyName,
         string PlotName,
         string Status,
-        Guid ChangedByUserId,
         string? Reason,
         DateTimeOffset OccurredOn = default
     ) :
@@ -36,5 +35,5 @@ namespace TC.Agro.Contracts.Events.Farm
             SensorId,
             OccurredOn,
             nameof(SensorOperationalStatusChangedIntegrationEvent),
-            new Dictionary<string, Guid> { { "OwnerId", OwnerId }, { "PlotId", PlotId }, { "PropertyId", PropertyId }, { "ChangedByUserId", ChangedByUserId } });
+            new Dictionary<string, Guid> { { "OwnerId", OwnerId }, { "PlotId", PlotId }, { "PropertyId", PropertyId } });
 }

@@ -11,5 +11,6 @@
         string? CorrelationId { get; }
         Guid? TenantId { get; }
         bool IsAuthenticated { get; }
+        bool IsAdmin { get; }
     }
 }

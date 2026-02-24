@@ -48,5 +48,9 @@
                 .User
                 .Identity?
                 .IsAuthenticated ?? false;
+
+        public bool IsAdmin =>
+            IsAuthenticated &&
+            Role.Equals("Admin", StringComparison.OrdinalIgnoreCase);
     }
 }

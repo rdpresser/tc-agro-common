@@ -12,6 +12,7 @@ namespace TC.Agro.Contracts.Events.Farm
     /// - EventName: event name for logging and auditing
     /// 
     /// Includes RelatedIds with PropertyId for cross-aggregate correlation.
+    /// Includes PlantingDate, ExpectedHarvestDate and IrrigationType for downstream consumers.
     /// </remarks>
     public record PlotCreatedIntegrationEvent(
         Guid PlotId,
@@ -19,6 +20,10 @@ namespace TC.Agro.Contracts.Events.Farm
         string Name,
         string CropType,
         double AreaHectares,
+        DateTimeOffset PlantingDate,
+        DateTimeOffset ExpectedHarvestDate,
+        string IrrigationType,
+        string AdditionalNotes,
         DateTimeOffset OccurredOn = default
     ) :
         BaseIntegrationEvent(

@@ -20,6 +20,20 @@
                 cancellationToken).ConfigureAwait(false);
         }
 
+        public async Task<T?> GetOrSetAsync<T>(
+            string key,
+            Func<CancellationToken, Task<T>> factory,
+            TimeSpan? duration = null,
+            TimeSpan? distributedCacheDuration = null,
+            CancellationToken cancellationToken = default)
+        {
+            return await _fusionCache.GetOrSetAsync<T>(
+                key,
+                async (ctx, ct) => await factory(ct).ConfigureAwait(false),
+                CacheServiceOptions.Create(duration, distributedCacheDuration),
+                cancellationToken).ConfigureAwait(false);
+        }
+
         public async Task SetAsync<T>(
             string key,
             T value,

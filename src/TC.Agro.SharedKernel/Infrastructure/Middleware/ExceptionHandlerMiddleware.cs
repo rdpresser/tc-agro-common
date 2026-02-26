@@ -20,9 +20,43 @@ namespace TC.Agro.SharedKernel.Infrastructure.Middleware
             {
                 await _next(context).ConfigureAwait(false);
             }
+            catch (OperationCanceledException exception) when (context.RequestAborted.IsCancellationRequested)
+            {
+                _logger.LogDebug(
+                    exception,
+                    "Request cancelled by client. Method={Method} Path={Path} TraceId={TraceId}",
+                    context.Request.Method,
+                    context.Request.Path,
+                    context.TraceIdentifier);
+
+                if (!context.Response.HasStarted)
+                {
+                    context.Response.StatusCode = 499;
+                }
+            }
+            catch (OperationCanceledException exception)
+            {
+                _logger.LogWarning(
+                    exception,
+                    "Operation cancelled before completion. Method={Method} Path={Path} TraceId={TraceId}",
+                    context.Request.Method,
+                    context.Request.Path,
+                    context.TraceIdentifier);
+            }
             catch (Exception exception)
             {
                 _logger.LogError(exception, "Exception occurred: {Message}", exception.Message);
+
+                if (context.Response.HasStarted)
+                {
+                    _logger.LogWarning(
+                        "Response already started. Skipping ProblemDetails write. Method={Method} Path={Path} TraceId={TraceId}",
+                        context.Request.Method,
+                        context.Request.Path,
+                        context.TraceIdentifier);
+
+                    return;
+                }
 
                 var exceptionDetails = GetExceptionDetails(exception);
 
@@ -40,6 +74,7 @@ namespace TC.Agro.SharedKernel.Infrastructure.Middleware
                 }
 
                 context.Response.StatusCode = exceptionDetails.Status;
+                context.Response.ContentType = "application/problem+json";
 
                 await context.Response.WriteAsJsonAsync(problemDetails).ConfigureAwait(false);
             }

@@ -23,6 +23,9 @@ namespace TC.Agro.Contracts.Events.Farm
         string PlotName,
         string Type,
         string Status,
+        double? PlotLatitude = null,
+        double? PlotLongitude = null,
+        string? PlotBoundaryGeoJson = null,
         DateTimeOffset OccurredOn = default
     ) :
         BaseIntegrationEvent(

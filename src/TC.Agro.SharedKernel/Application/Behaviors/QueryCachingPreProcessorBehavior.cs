@@ -81,16 +81,16 @@
         {
             var _userContext = context.HttpContext.RequestServices.GetRequiredService<IUserContext>();
 
-			if (!_userContext.IsAuthenticated)
-			{
-				context.Request!.SetCacheKey("-anonymous-anonymous");
-			}
-			else
-			{
-				context.Request!.SetCacheKey($"-{_userContext.Id}-{_userContext.Username}");
-			}
+            if (!_userContext.IsAuthenticated)
+            {
+                context.Request!.SetCacheKey("-anonymous-anonymous");
+            }
+            else
+            {
+                context.Request!.SetCacheKey($"-{_userContext.Id}-{_userContext.Username}");
+            }
 
-			return context.Request.GetCacheKey;
+            return context.Request.GetCacheKey;
         }
     }
 }

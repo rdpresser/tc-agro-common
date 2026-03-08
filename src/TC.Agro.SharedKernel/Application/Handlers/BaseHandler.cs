@@ -105,7 +105,7 @@
         protected Result<TResponse> BuildNotFoundResult()
         {
             if (!ValidationContext.ValidationFailures.Any())
-                return Result<TResponse>.Success(default!);
+                return Result<TResponse>.NotFound();
 
             return Result<TResponse>.NotFound([..ValidationContext.ValidationFailures
                 .Select(f => f.ErrorMessage)]);
@@ -117,7 +117,7 @@
         protected Result<TResponse> BuildNotAuthorizedResult()
         {
             if (!ValidationContext.ValidationFailures.Any())
-                return Result<TResponse>.Success(default!);
+                return Result<TResponse>.Unauthorized();
 
             return Result<TResponse>.Unauthorized([..ValidationContext.ValidationFailures
                 .Select(f => f.ErrorMessage)]);

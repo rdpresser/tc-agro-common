@@ -115,9 +115,18 @@ public abstract class BaseCommandHandler<TCommand, TResponse, TAggregate, TRepos
                     operationId,
                     typeof(TCommand).Name);
 
-                foreach (var error in result.Errors ?? ["Resource not found"])
+                var errors = result.Errors?
+                    .Where(static error => !string.IsNullOrWhiteSpace(error))
+                    .ToArray();
+
+                if (errors is null || errors.Length == 0)
                 {
-                    AddError(error, "Resource not found", Severity.Warning);
+                    errors = ["Resource not found"];
+                }
+
+                foreach (var error in errors)
+                {
+                    AddError(nameof(TCommand), error, severity: Severity.Warning);
                 }
                 return BuildNotFoundResult();
             }
@@ -129,9 +138,18 @@ public abstract class BaseCommandHandler<TCommand, TResponse, TAggregate, TRepos
                     operationId,
                     typeof(TCommand).Name);
 
-                foreach (var error in result.Errors ?? ["Unauthorized"])
+                var errors = result.Errors?
+                    .Where(static error => !string.IsNullOrWhiteSpace(error))
+                    .ToArray();
+
+                if (errors is null || errors.Length == 0)
                 {
-                    AddError(error, "Unauthorized", Severity.Warning);
+                    errors = ["Unauthorized"];
+                }
+
+                foreach (var error in errors)
+                {
+                    AddError(nameof(TCommand), error, severity: Severity.Warning);
                 }
                 return BuildNotAuthorizedResult();
             }

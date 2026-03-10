@@ -24,7 +24,9 @@ namespace TC.Agro.Contracts.Events.Farm
         DateTimeOffset ExpectedHarvestDate,
         string IrrigationType,
         string AdditionalNotes,
-        DateTimeOffset OccurredOn = default
+        DateTimeOffset OccurredOn = default,
+        Guid? CropTypeCatalogId = null,
+        Guid? SelectedCropTypeSuggestionId = null
     ) :
         BaseIntegrationEvent(
             Guid.NewGuid(),

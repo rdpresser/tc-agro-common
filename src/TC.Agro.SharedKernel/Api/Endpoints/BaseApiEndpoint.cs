@@ -64,6 +64,32 @@
                 return;
             }
 
+            if (response.Status == ResultStatus.Conflict)
+            {
+                var errors = response.Errors?.Select(e => new
+                {
+                    name = "Conflict",
+                    reason = e,
+                    code = "Conflict"
+                }).ToArray();
+
+                var problemDetails = new Microsoft.AspNetCore.Mvc.ProblemDetails
+                {
+                    Status = (int)HttpStatusCode.Conflict,
+                    Type = "https://www.rfc-editor.org/rfc/rfc7231#section-6.5.8",
+                    Title = "Conflict",
+                    Instance = HttpContext?.Request.Path.Value ?? string.Empty
+                };
+
+                problemDetails.Extensions["traceId"] = HttpContext?.TraceIdentifier;
+
+                if (errors is { Length: > 0 })
+                    problemDetails.Extensions["errors"] = errors;
+
+                await HttpContext!.Response.SendAsync(problemDetails, (int)HttpStatusCode.Conflict, cancellation: ct).ConfigureAwait(false);
+                return;
+            }
+
             await Send.ErrorsAsync((int)HttpStatusCode.BadRequest, ct);
         }
     }
@@ -128,6 +154,32 @@
                     problemDetails.Extensions["errors"] = errors;
 
                 await HttpContext!.Response.SendAsync(problemDetails, (int)HttpStatusCode.Unauthorized, cancellation: ct).ConfigureAwait(false);
+                return;
+            }
+
+            if (response.Status == ResultStatus.Conflict)
+            {
+                var errors = response.Errors?.Select(e => new
+                {
+                    name = "Conflict",
+                    reason = e,
+                    code = "Conflict"
+                }).ToArray();
+
+                var problemDetails = new Microsoft.AspNetCore.Mvc.ProblemDetails
+                {
+                    Status = (int)HttpStatusCode.Conflict,
+                    Type = "https://www.rfc-editor.org/rfc/rfc7231#section-6.5.8",
+                    Title = "Conflict",
+                    Instance = HttpContext?.Request.Path.Value ?? string.Empty
+                };
+
+                problemDetails.Extensions["traceId"] = HttpContext?.TraceIdentifier;
+
+                if (errors is { Length: > 0 })
+                    problemDetails.Extensions["errors"] = errors;
+
+                await HttpContext!.Response.SendAsync(problemDetails, (int)HttpStatusCode.Conflict, cancellation: ct).ConfigureAwait(false);
                 return;
             }
 

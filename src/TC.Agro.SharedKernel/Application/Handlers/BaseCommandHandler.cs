@@ -154,6 +154,30 @@ public abstract class BaseCommandHandler<TCommand, TResponse, TAggregate, TRepos
                 return BuildNotAuthorizedResult();
             }
 
+            if (result.Status == ResultStatus.Conflict)
+            {
+                Logger.LogWarning(
+                    "Operation {OperationId} failed: Conflict for command {CommandName}",
+                    operationId,
+                    typeof(TCommand).Name);
+
+                var errors = result.Errors?
+                    .Where(static error => !string.IsNullOrWhiteSpace(error))
+                    .ToArray();
+
+                if (errors is null || errors.Length == 0)
+                {
+                    errors = ["Conflict"];
+                }
+
+                foreach (var error in errors)
+                {
+                    AddError(nameof(TCommand), error, severity: Severity.Warning);
+                }
+
+                return BuildConflictResult();
+            }
+
             // ✅ ValidationErrors (BadRequest)
             AddErrors(result.ValidationErrors);
             return BuildValidationErrorResult();

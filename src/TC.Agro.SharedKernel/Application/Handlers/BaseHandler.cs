@@ -123,6 +123,18 @@
                 .Select(f => f.ErrorMessage)]);
         }
 
+        /// <summary>
+        /// Builds a Conflict result based on accumulated validation failures.
+        /// </summary>
+        protected Result<TResponse> BuildConflictResult()
+        {
+            if (!ValidationContext.ValidationFailures.Any())
+                return Result<TResponse>.Conflict();
+
+            return Result<TResponse>.Conflict([..ValidationContext.ValidationFailures
+                .Select(f => f.ErrorMessage)]);
+        }
+
         #endregion
     }
 }

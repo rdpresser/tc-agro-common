@@ -13,17 +13,39 @@
         /// Loads environment variables from .env files
         /// </summary>
         /// <param name="environment">The hosting environment</param>
-        public static void LoadEnvironmentFiles(IHostEnvironment environment)
+        /// <param name="environmentFilesDirectory">Optional directory containing the .env files</param>
+        /// <param name="loadEnvironmentSpecificFile">Whether to also load .env.{environment}</param>
+        public static void LoadEnvironmentFiles(
+            IHostEnvironment environment,
+            string? environmentFilesDirectory = null,
+            bool loadEnvironmentSpecificFile = true)
+            => LoadEnvironmentFiles(
+                environment.EnvironmentName,
+                environmentFilesDirectory,
+                loadEnvironmentSpecificFile);
+
+        /// <summary>
+        /// Loads environment variables from .env files using an explicit environment name.
+        /// </summary>
+        /// <param name="environmentName">The environment name (Development, Production, etc.)</param>
+        /// <param name="environmentFilesDirectory">Optional directory containing the .env files</param>
+        /// <param name="loadEnvironmentSpecificFile">Whether to also load .env.{environment}</param>
+        public static void LoadEnvironmentFiles(
+            string environmentName,
+            string? environmentFilesDirectory = null,
+            bool loadEnvironmentSpecificFile = true)
         {
-            var environmentName = environment.EnvironmentName.ToLowerInvariant();
+            ArgumentException.ThrowIfNullOrWhiteSpace(environmentName);
+
+            var normalizedEnvironmentName = environmentName.ToLowerInvariant();
 
             // Find project root by looking for solution file or git directory
-            var projectRoot = FindProjectRoot() ?? Directory.GetCurrentDirectory();
+            var environmentRoot = ResolveEnvironmentFilesDirectory(environmentFilesDirectory);
 
             var logger = CreateBootstrapLogger();
 
             // Load base .env file first (if exists)
-            var baseEnvFile = Path.Combine(projectRoot, ".env");
+            var baseEnvFile = Path.Combine(environmentRoot, ".env");
             if (File.Exists(baseEnvFile))
             {
                 DotNetEnv.Env.Load(baseEnvFile);
@@ -31,19 +53,34 @@
                 Console.WriteLine($"Loaded base .env from: {baseEnvFile}");
             }
 
+            if (!loadEnvironmentSpecificFile)
+            {
+                return;
+            }
+
             // Load environment-specific .env file (overrides base values)
-            var envFile = Path.Combine(projectRoot, $".env.{environmentName}");
+            var envFile = Path.Combine(environmentRoot, $".env.{normalizedEnvironmentName}");
             if (File.Exists(envFile))
             {
                 DotNetEnv.Env.Load(envFile);
-                logger?.LogInformation("Loaded {Environment} .env from: {EnvFile}", environmentName, envFile);
-                Console.WriteLine($"Loaded {environmentName} .env from: {envFile}");
+                logger?.LogInformation("Loaded {Environment} .env from: {EnvFile}", normalizedEnvironmentName, envFile);
+                Console.WriteLine($"Loaded {normalizedEnvironmentName} .env from: {envFile}");
             }
             else
             {
                 logger?.LogWarning("Environment file not found: {EnvFile}", envFile);
                 Console.WriteLine($"Environment file not found: {envFile}");
             }
+        }
+
+        private static string ResolveEnvironmentFilesDirectory(string? environmentFilesDirectory)
+        {
+            if (!string.IsNullOrWhiteSpace(environmentFilesDirectory))
+            {
+                return Path.GetFullPath(environmentFilesDirectory);
+            }
+
+            return FindProjectRoot() ?? Directory.GetCurrentDirectory();
         }
 
         /// <summary>

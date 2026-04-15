@@ -36,6 +36,15 @@
             if (JwtSettings.SecretKey.Length < 32)
                 throw new InvalidOperationException("JWT SecretKey must be at least 32 characters long for security.");
 
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var isDevOrTest = string.Equals(environmentName, "Development", StringComparison.OrdinalIgnoreCase) ||
+                              string.Equals(environmentName, "Testing", StringComparison.OrdinalIgnoreCase);
+
+            if (!isDevOrTest &&
+                (JwtSettings.SecretKey.Contains("change-in-production", StringComparison.OrdinalIgnoreCase) ||
+                 JwtSettings.SecretKey.Contains("your-256-bit-secret-key", StringComparison.OrdinalIgnoreCase)))
+                throw new InvalidOperationException("JWT SecretKey is using an insecure placeholder value. Configure a real secret via environment/User Secrets.");
+
             if (string.IsNullOrWhiteSpace(JwtSettings.Issuer))
                 throw new InvalidOperationException("JWT Issuer is required but not configured.");
 
